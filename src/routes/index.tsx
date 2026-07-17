@@ -650,6 +650,80 @@ function OSPoint() {
           </div>
         </div>
       </footer>
+
+      {/* LOGIN MODAL */}
+      <div className="modal fade auth-modal" id="loginModal" tabIndex={-1} aria-labelledby="loginTitle" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="loginTitle"><i className="bi bi-shield-lock me-2" aria-hidden="true"></i>Operator Login</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close login dialog"></button>
+            </div>
+            <form id="loginForm">
+              <div className="modal-body">
+                <div className="auth-field">
+                  <label htmlFor="loginEmail">Work email</label>
+                  <input id="loginEmail" type="email" required autoComplete="email" placeholder="analyst@company.com" />
+                </div>
+                <div className="auth-field">
+                  <label htmlFor="loginPassword">Password</label>
+                  <input id="loginPassword" type="password" required minLength={8} autoComplete="current-password" placeholder="••••••••" />
+                </div>
+                <div className="auth-note" role="note">
+                  <i className="bi bi-info-circle me-1" aria-hidden="true"></i>
+                  Demo prototype — credentials are validated client-side only. No real account is created and no data leaves the browser.
+                </div>
+              </div>
+              <div className="modal-footer d-flex justify-content-between align-items-center">
+                <span className="auth-switch">No account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Create one</a></span>
+                <button type="submit" className="btn btn-cyber"><i className="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i> Sign in (demo)</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {/* SIGNUP MODAL */}
+      <div className="modal fade auth-modal" id="signupModal" tabIndex={-1} aria-labelledby="signupTitle" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="signupTitle"><i className="bi bi-person-plus me-2" aria-hidden="true"></i>Get Started</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close sign-up dialog"></button>
+            </div>
+            <form id="signupForm">
+              <div className="modal-body">
+                <div className="auth-field">
+                  <label htmlFor="signupName">Full name</label>
+                  <input id="signupName" type="text" required minLength={2} maxLength={80} placeholder="Jane Analyst" />
+                </div>
+                <div className="auth-field">
+                  <label htmlFor="signupEmail">Work email</label>
+                  <input id="signupEmail" type="email" required autoComplete="email" placeholder="analyst@company.com" />
+                </div>
+                <div className="auth-field">
+                  <label htmlFor="signupOrg">Organization</label>
+                  <input id="signupOrg" type="text" required minLength={2} maxLength={80} placeholder="Acme Security" />
+                </div>
+                <div className="auth-field">
+                  <label htmlFor="signupPassword">Choose a password</label>
+                  <input id="signupPassword" type="password" required minLength={8} autoComplete="new-password" placeholder="Minimum 8 characters" />
+                </div>
+                <div className="auth-note" role="note">
+                  <i className="bi bi-shield-check me-1" aria-hidden="true"></i>
+                  This is a demonstration platform. Submitting the form provisions a
+                  local demo workspace only — no backend account is created.
+                </div>
+              </div>
+              <div className="modal-footer d-flex justify-content-between align-items-center">
+                <span className="auth-switch">Have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Sign in</a></span>
+                <button type="submit" className="btn btn-cyber"><i className="bi bi-rocket-takeoff me-1" aria-hidden="true"></i> Create demo workspace</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </>
+
   );
 }
