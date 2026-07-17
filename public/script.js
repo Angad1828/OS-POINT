@@ -162,15 +162,37 @@
   };
 
   function initTabs() {
-    const tabs = document.querySelectorAll(".dash-tab");
+    const tabs = Array.from(document.querySelectorAll(".dash-tab"));
     const input = document.getElementById("searchInput");
-    tabs.forEach((t) => {
-      t.addEventListener("click", () => {
-        tabs.forEach((x) => x.classList.remove("active"));
-        t.classList.add("active");
-        const kind = t.dataset.kind;
-        if (input) input.placeholder = "Enter " + t.textContent.trim().toLowerCase() + " target...";
-        if (input) input.value = DEMO_TARGETS[kind] || "";
+    const select = (t) => {
+      tabs.forEach((x) => {
+        x.classList.remove("active");
+        x.setAttribute("aria-selected", "false");
+        x.setAttribute("tabindex", "-1");
+      });
+      t.classList.add("active");
+      t.setAttribute("aria-selected", "true");
+      t.setAttribute("tabindex", "0");
+      const kind = t.dataset.kind;
+      if (input) {
+        input.placeholder = "Enter " + t.textContent.trim().toLowerCase() + " target...";
+        input.value = DEMO_TARGETS[kind] || "";
+      }
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(t));
+      t.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+          e.preventDefault();
+          const dir = e.key === "ArrowRight" ? 1 : -1;
+          const next = tabs[(i + dir + tabs.length) % tabs.length];
+          select(next);
+          next.focus();
+        } else if (e.key === "Home") {
+          e.preventDefault(); select(tabs[0]); tabs[0].focus();
+        } else if (e.key === "End") {
+          e.preventDefault(); select(tabs[tabs.length - 1]); tabs[tabs.length - 1].focus();
+        }
       });
     });
   }
