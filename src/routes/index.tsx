@@ -302,7 +302,7 @@ function OSPoint() {
                 </div>
                 <div className="d-flex align-items-center gap-3">
                   <span className="chip"><span className="dot"></span> <span id="resStatus">Idle</span></span>
-                  <button className="btn btn-ghost btn-sm-cyber"><i className="bi bi-download me-1"></i> Export</button>
+                  <button id="exportPdfBtn" type="button" className="btn btn-ghost btn-sm-cyber" aria-label="Download investigation report as PDF"><i className="bi bi-download me-1" aria-hidden="true"></i> Export PDF</button>
                 </div>
               </div>
               <div className="result-body">
