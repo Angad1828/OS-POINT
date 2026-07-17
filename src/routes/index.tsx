@@ -59,6 +59,7 @@ function OSPoint() {
       "https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js",
       "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",
       "https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
       "/script.js",
     ];
     const loaded: HTMLScriptElement[] = [];
