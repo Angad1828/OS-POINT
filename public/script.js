@@ -14,11 +14,15 @@
       ? fn()
       : document.addEventListener("DOMContentLoaded", fn);
 
+  const REDUCED_MOTION = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   ready(() => {
-    initCursorGlow();
-    initParticles();
-    initBinaryRain();
-    initTyped();
+    if (!REDUCED_MOTION) {
+      initCursorGlow();
+      initParticles();
+      initBinaryRain();
+      initTyped();
+    }
     initAOS();
     initCounters();
     initTabs();
@@ -27,7 +31,10 @@
     initLiveFeed();
     initRelGraph();
     initTilt();
-    initReveal();
+    if (!REDUCED_MOTION) initReveal();
+    initAuth();
+    initGmailScan();
+    initPdfExport();
   });
 
   // ---------- Cursor Glow ----------
