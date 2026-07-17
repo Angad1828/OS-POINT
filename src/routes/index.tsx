@@ -80,7 +80,10 @@ function OSPoint() {
 
   return (
     <>
-      <div id="cursor-glow" />
+      <a href="#home" className="skip-link">Skip to main content</a>
+      <div id="cursor-glow" aria-hidden="true" />
+
+
 
       {/* NAV */}
       <nav className="osp-nav navbar navbar-expand-lg">
