@@ -280,7 +280,8 @@ function OSPoint() {
               ))}
             </div>
 
-            <form id="searchForm" className="search-input-wrap">
+            <form id="searchForm" className="search-input-wrap" role="search" aria-label="Investigate a target">
+              <label htmlFor="searchInput" className="sr-only">Target identifier</label>
               <input
                 id="searchInput"
                 className="search-input"
@@ -289,7 +290,7 @@ function OSPoint() {
                 autoComplete="off"
               />
               <button className="search-btn" type="submit">
-                <i className="bi bi-search me-1"></i> Investigate
+                <i className="bi bi-search me-1" aria-hidden="true"></i> Investigate
               </button>
             </form>
 
