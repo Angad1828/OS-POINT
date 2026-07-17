@@ -256,7 +256,7 @@ function OSPoint() {
           </div>
 
           <div className="glass dash" data-aos="fade-up">
-            <div className="dash-tabs">
+            <div className="dash-tabs" role="tablist" aria-label="Investigation target type">
               {[
                 ["phone", "bi-telephone", "Phone"],
                 ["email", "bi-envelope", "Email"],
@@ -266,13 +266,17 @@ function OSPoint() {
                 ["domain", "bi-globe", "Domain"],
                 ["hash", "bi-hash", "Hash"],
               ].map(([kind, icon, label], i) => (
-                <div
+                <button
                   key={kind}
+                  type="button"
+                  role="tab"
+                  tabIndex={i === 0 ? 0 : -1}
+                  aria-selected={i === 0 ? "true" : "false"}
                   className={`dash-tab ${i === 0 ? "active" : ""}`}
                   data-kind={kind}
                 >
-                  <i className={`bi ${icon}`}></i> {label}
-                </div>
+                  <i className={`bi ${icon}`} aria-hidden="true"></i> {label}
+                </button>
               ))}
             </div>
 
