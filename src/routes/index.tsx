@@ -114,8 +114,8 @@ function OSPoint() {
               <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
             </ul>
             <div className="d-flex gap-2">
-              <a href="#login" className="btn btn-ghost btn-sm-cyber">Login</a>
-              <a href="#start" className="btn btn-cyber btn-sm-cyber">Get Started</a>
+              <button type="button" className="btn btn-ghost btn-sm-cyber" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+              <button type="button" className="btn btn-cyber btn-sm-cyber" data-bs-toggle="modal" data-bs-target="#signupModal">Get Started</button>
             </div>
           </div>
         </div>
