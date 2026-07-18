@@ -750,7 +750,7 @@
     y += 10;
 
     // Gmail results (if present)
-    const gmailCards = Array.from(document.querySelectorAll("#gmailResults .gmail-card"));
+    const gmailCards = Array.from(document.querySelectorAll("#emailSignals .gmail-card"));
     if (gmailCards.length) {
       if (y > 720) { doc.addPage(); y = M; }
       doc.setFont("helvetica", "bold"); doc.text("Email / Gmail Intelligence", M, y); y += 16;
