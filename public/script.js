@@ -33,7 +33,6 @@
     initTilt();
     if (!REDUCED_MOTION) initReveal();
     initAuth();
-    initGmailScan();
     initPdfExport();
   });
 
