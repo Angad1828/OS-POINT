@@ -153,7 +153,7 @@
   // ---------- Search tabs + demo search ----------
   const DEMO_TARGETS = {
     phone: "+1 (415) 555-0142",
-    email: "j.morgan@blacksite-ops.io",
+    email: "torvalds@linux-foundation.org",
     ip: "185.220.101.47",
     username: "gh0st_analyst",
     face: "img_9241.jpg",
