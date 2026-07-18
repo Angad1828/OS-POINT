@@ -213,6 +213,11 @@
     panel.style.display = "block";
     panel.scrollIntoView({ behavior: "smooth", block: "center" });
 
+    const activeTab = document.querySelector(".dash-tab.active");
+    const kind = activeTab ? activeTab.dataset.kind : "";
+    const emailIntel = document.getElementById("emailIntel");
+    if (emailIntel) emailIntel.style.display = kind === "email" ? "block" : "none";
+
     // Simulate loading
     const stages = ["Initializing collectors", "Querying data sources", "Correlating entities", "Scoring risk"];
     const statusEl = document.getElementById("resStatus");
@@ -241,6 +246,11 @@
       ring.style.setProperty("--p", conf);
       ring.querySelector("span").textContent = conf + "%";
       ring.style.background = `conic-gradient(${risk > 60 ? "#F87171" : (risk > 35 ? "#FBBF24" : "#00FF88")} ${conf}%, rgba(255,255,255,0.06) 0)`;
+    }
+
+    // Kick off real email OSINT if this is an email target
+    if (kind === "email" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(target.trim())) {
+      runEmailIntel(target.trim().toLowerCase());
     }
   }
 
