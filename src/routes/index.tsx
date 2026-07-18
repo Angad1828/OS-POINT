@@ -373,34 +373,41 @@ function OSPoint() {
                     </div>
                   </div>
                 </div>
+
+                {/* Email Intelligence — appears only when Email tab is active */}
+                <div id="emailIntel" className="email-intel" style={{ display: "none" }} aria-live="polite">
+                  <div className="row g-3 mt-1">
+                    <div className="col-md-4">
+                      <div className="metric h-100 d-flex flex-column align-items-center text-center">
+                        <div className="k mb-2">Public Avatar (Gravatar)</div>
+                        <div id="emailAvatarWrap" className="email-avatar">
+                          <div className="email-avatar-fallback"><i className="bi bi-person" aria-hidden="true"></i></div>
+                        </div>
+                        <div id="emailAvatarMeta" className="text-muted-2 mt-2" style={{ fontSize: ".78rem" }}>—</div>
+                      </div>
+                    </div>
+                    <div className="col-md-8">
+                      <div className="metric h-100">
+                        <div className="k mb-2">Email Signals</div>
+                        <div id="emailSignals" className="gmail-grid"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row g-3 mt-1">
+                    <div className="col-md-12">
+                      <div className="metric">
+                        <div className="k mb-2">Linked Accounts &amp; Public Profiles</div>
+                        <div id="emailAccounts" className="account-grid"></div>
+                        <div id="emailSources" className="gmail-sources"></div>
+                        <div className="text-muted-2 mt-2" style={{ fontSize: ".72rem" }}>
+                          Live probes: Gravatar avatar &amp; profile JSON, GitHub users API. Other providers are surfaced as verifiable candidate URLs — browser CORS prevents direct scraping from a pure frontend.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* GMAIL INTELLIGENCE */}
-      <section id="gmail" className="section">
-        <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="section-eyebrow">Email &amp; Gmail Intelligence</span>
-            <h2 className="section-title">Scan a Gmail address across <span className="text-grad">public OSINT surfaces</span></h2>
-            <p className="section-sub mx-auto">
-              Aggregates signals from public sources referenced by the OSINT
-              community (OSINT Framework, osint.rocks, Epieos-style checks,
-              HaveIBeenPwned, Gravatar, and Google account presence heuristics).
-              All results below are demonstration data.
-            </p>
-          </div>
-          <div className="glass gmail-panel" data-aos="fade-up">
-            <form id="gmailForm" className="gmail-form" role="search" aria-label="Scan a Gmail address">
-              <label htmlFor="gmailInput" className="sr-only">Gmail address</label>
-              <input id="gmailInput" type="email" placeholder="target@gmail.com" defaultValue="john.morgan.demo@gmail.com" autoComplete="off" />
-              <button className="btn btn-cyber" type="submit"><i className="bi bi-envelope-check me-1" aria-hidden="true"></i> Scan Address</button>
-            </form>
-            <div id="gmailStatus" className="text-muted-2 mt-2" style={{ fontSize: ".82rem" }} aria-live="polite"></div>
-            <div id="gmailResults" className="gmail-grid" aria-live="polite"></div>
-            <div id="gmailSources" className="gmail-sources"></div>
           </div>
         </div>
       </section>

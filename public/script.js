@@ -33,7 +33,6 @@
     initTilt();
     if (!REDUCED_MOTION) initReveal();
     initAuth();
-    initGmailScan();
     initPdfExport();
   });
 
@@ -153,7 +152,7 @@
   // ---------- Search tabs + demo search ----------
   const DEMO_TARGETS = {
     phone: "+1 (415) 555-0142",
-    email: "j.morgan@blacksite-ops.io",
+    email: "torvalds@linux-foundation.org",
     ip: "185.220.101.47",
     username: "gh0st_analyst",
     face: "img_9241.jpg",
@@ -214,6 +213,11 @@
     panel.style.display = "block";
     panel.scrollIntoView({ behavior: "smooth", block: "center" });
 
+    const activeTab = document.querySelector(".dash-tab.active");
+    const kind = activeTab ? activeTab.dataset.kind : "";
+    const emailIntel = document.getElementById("emailIntel");
+    if (emailIntel) emailIntel.style.display = kind === "email" ? "block" : "none";
+
     // Simulate loading
     const stages = ["Initializing collectors", "Querying data sources", "Correlating entities", "Scoring risk"];
     const statusEl = document.getElementById("resStatus");
@@ -242,6 +246,11 @@
       ring.style.setProperty("--p", conf);
       ring.querySelector("span").textContent = conf + "%";
       ring.style.background = `conic-gradient(${risk > 60 ? "#F87171" : (risk > 35 ? "#FBBF24" : "#00FF88")} ${conf}%, rgba(255,255,255,0.06) 0)`;
+    }
+
+    // Kick off real email OSINT if this is an email target
+    if (kind === "email" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(target.trim())) {
+      runEmailIntel(target.trim().toLowerCase());
     }
   }
 
@@ -473,98 +482,201 @@
     });
   }
 
-  // ---------- Gmail Intelligence (demo aggregator) ----------
-  function initGmailScan() {
-    const form = document.getElementById("gmailForm");
-    if (!form) return;
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      runGmailScan();
-    });
-  }
+  // ---------- Email OSINT (real, CORS-safe probes) ----------
+  //
+  // Live probes used from the browser:
+  //  - Gravatar avatar image (image request, no CORS needed)
+  //  - Gravatar profile JSON (CORS-open on www.gravatar.com/<md5>.json)
+  //  - GitHub users search API (CORS-open on api.github.com)
+  //
+  // Other sites (Twitter/X, Instagram, TikTok, LinkedIn, Facebook, Reddit,
+  // Medium, GitLab, Dev.to, Stack Overflow, Pinterest, Keybase, Have I
+  // Been Pwned) do not allow direct browser scraping due to CORS. We
+  // surface them as CANDIDATE profile URLs derived from the email's local
+  // part — the standard OSINT-framework approach (Sherlock/Holehe style).
+  // Users can click through to verify. A real backend would resolve these.
 
-  // Simple deterministic hash for stable demo variation per email
   function hashStr(s) {
     let h = 2166136261;
     for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = (h * 16777619) >>> 0; }
     return h;
   }
 
-  function runGmailScan() {
-    const input = document.getElementById("gmailInput");
-    const status = document.getElementById("gmailStatus");
-    const grid = document.getElementById("gmailResults");
-    const srcWrap = document.getElementById("gmailSources");
-    const email = (input.value || "").trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      status.textContent = "Enter a valid email address (e.g. name@gmail.com).";
-      grid.innerHTML = ""; srcWrap.innerHTML = "";
-      return;
+  // Compact MD5 (public domain, Joseph Myers) — needed for Gravatar hash
+  function md5(s) {
+    function toUtf8(str) {
+      return unescape(encodeURIComponent(str));
     }
-    const isGmail = /@gmail\.com$/.test(email);
-    grid.innerHTML = "";
-    srcWrap.innerHTML = "";
-    const stages = [
-      "Resolving MX records via public DNS...",
-      "Querying HaveIBeenPwned breach index...",
-      "Checking Gravatar profile...",
-      "Probing Google account presence (public heuristics)...",
-      "Correlating with OSINT Framework references...",
-      "Compiling report...",
-    ];
-    let i = 0;
-    status.textContent = stages[0];
-    const iv = setInterval(() => {
-      i++;
-      if (i >= stages.length) { clearInterval(iv); renderGmailResults(email, isGmail); status.textContent = "Scan complete • Demonstration data only"; return; }
-      status.textContent = stages[i];
-    }, 420);
+    function add32(a, b) { return (a + b) & 0xffffffff; }
+    function cmn(q, a, b, x, s, t) {
+      a = add32(add32(a, q), add32(x, t));
+      return add32((a << s) | (a >>> (32 - s)), b);
+    }
+    function ff(a,b,c,d,x,s,t){return cmn((b&c)|((~b)&d),a,b,x,s,t);}
+    function gg(a,b,c,d,x,s,t){return cmn((b&d)|(c&(~d)),a,b,x,s,t);}
+    function hh(a,b,c,d,x,s,t){return cmn(b^c^d,a,b,x,s,t);}
+    function ii(a,b,c,d,x,s,t){return cmn(c^(b|(~d)),a,b,x,s,t);}
+    function md5cycle(x, k) {
+      let a=x[0],b=x[1],c=x[2],d=x[3];
+      a=ff(a,b,c,d,k[0],7,-680876936);d=ff(d,a,b,c,k[1],12,-389564586);c=ff(c,d,a,b,k[2],17,606105819);b=ff(b,c,d,a,k[3],22,-1044525330);
+      a=ff(a,b,c,d,k[4],7,-176418897);d=ff(d,a,b,c,k[5],12,1200080426);c=ff(c,d,a,b,k[6],17,-1473231341);b=ff(b,c,d,a,k[7],22,-45705983);
+      a=ff(a,b,c,d,k[8],7,1770035416);d=ff(d,a,b,c,k[9],12,-1958414417);c=ff(c,d,a,b,k[10],17,-42063);b=ff(b,c,d,a,k[11],22,-1990404162);
+      a=ff(a,b,c,d,k[12],7,1804603682);d=ff(d,a,b,c,k[13],12,-40341101);c=ff(c,d,a,b,k[14],17,-1502002290);b=ff(b,c,d,a,k[15],22,1236535329);
+      a=gg(a,b,c,d,k[1],5,-165796510);d=gg(d,a,b,c,k[6],9,-1069501632);c=gg(c,d,a,b,k[11],14,643717713);b=gg(b,c,d,a,k[0],20,-373897302);
+      a=gg(a,b,c,d,k[5],5,-701558691);d=gg(d,a,b,c,k[10],9,38016083);c=gg(c,d,a,b,k[15],14,-660478335);b=gg(b,c,d,a,k[4],20,-405537848);
+      a=gg(a,b,c,d,k[9],5,568446438);d=gg(d,a,b,c,k[14],9,-1019803690);c=gg(c,d,a,b,k[3],14,-187363961);b=gg(b,c,d,a,k[8],20,1163531501);
+      a=gg(a,b,c,d,k[13],5,-1444681467);d=gg(d,a,b,c,k[2],9,-51403784);c=gg(c,d,a,b,k[7],14,1735328473);b=gg(b,c,d,a,k[12],20,-1926607734);
+      a=hh(a,b,c,d,k[5],4,-378558);d=hh(d,a,b,c,k[8],11,-2022574463);c=hh(c,d,a,b,k[11],16,1839030562);b=hh(b,c,d,a,k[14],23,-35309556);
+      a=hh(a,b,c,d,k[1],4,-1530992060);d=hh(d,a,b,c,k[4],11,1272893353);c=hh(c,d,a,b,k[7],16,-155497632);b=hh(b,c,d,a,k[10],23,-1094730640);
+      a=hh(a,b,c,d,k[13],4,681279174);d=hh(d,a,b,c,k[0],11,-358537222);c=hh(c,d,a,b,k[3],16,-722521979);b=hh(b,c,d,a,k[6],23,76029189);
+      a=hh(a,b,c,d,k[9],4,-640364487);d=hh(d,a,b,c,k[12],11,-421815835);c=hh(c,d,a,b,k[15],16,530742520);b=hh(b,c,d,a,k[2],23,-995338651);
+      a=ii(a,b,c,d,k[0],6,-198630844);d=ii(d,a,b,c,k[7],10,1126891415);c=ii(c,d,a,b,k[14],15,-1416354905);b=ii(b,c,d,a,k[5],21,-57434055);
+      a=ii(a,b,c,d,k[12],6,1700485571);d=ii(d,a,b,c,k[3],10,-1894986606);c=ii(c,d,a,b,k[10],15,-1051523);b=ii(b,c,d,a,k[1],21,-2054922799);
+      a=ii(a,b,c,d,k[8],6,1873313359);d=ii(d,a,b,c,k[15],10,-30611744);c=ii(c,d,a,b,k[6],15,-1560198380);b=ii(b,c,d,a,k[13],21,1309151649);
+      a=ii(a,b,c,d,k[4],6,-145523070);d=ii(d,a,b,c,k[11],10,-1120210379);c=ii(c,d,a,b,k[2],15,718787259);b=ii(b,c,d,a,k[9],21,-343485551);
+      x[0]=add32(a,x[0]);x[1]=add32(b,x[1]);x[2]=add32(c,x[2]);x[3]=add32(d,x[3]);
+    }
+    function md5blk(s){const md5blks=[];for(let i=0;i<64;i+=4){md5blks[i>>2]=s.charCodeAt(i)+(s.charCodeAt(i+1)<<8)+(s.charCodeAt(i+2)<<16)+(s.charCodeAt(i+3)<<24);}return md5blks;}
+    function md51(s){const n=s.length,state=[1732584193,-271733879,-1732584194,271733878];let i;for(i=64;i<=s.length;i+=64){md5cycle(state,md5blk(s.substring(i-64,i)));}s=s.substring(i-64);const tail=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];for(i=0;i<s.length;i++)tail[i>>2]|=s.charCodeAt(i)<<((i%4)<<3);tail[i>>2]|=0x80<<((i%4)<<3);if(i>55){md5cycle(state,tail);for(i=0;i<16;i++)tail[i]=0;}tail[14]=n*8;md5cycle(state,tail);return state;}
+    function rhex(n){const hex="0123456789abcdef";let s="";for(let j=0;j<4;j++)s+=hex.charAt((n>>(j*8+4))&0x0F)+hex.charAt((n>>(j*8))&0x0F);return s;}
+    function hex(x){for(let i=0;i<x.length;i++)x[i]=rhex(x[i]);return x.join("");}
+    return hex(md51(toUtf8(s)));
   }
 
-  function renderGmailResults(email, isGmail) {
-    const h = hashStr(email);
+  async function runEmailIntel(email) {
     const localPart = email.split("@")[0];
-    const domain = email.split("@")[1];
-    const breachCount = (h % 6);
-    const services = ["LinkedIn (2021)", "Adobe (2013)", "Dropbox (2012)", "Canva (2019)", "MyFitnessPal (2018)", "Twitter (2022)"];
-    const breaches = services.slice(0, breachCount).join(", ") || "None found";
-    const gravatar = (h % 3 !== 0);
-    const googleAcct = isGmail ? "Likely (public recovery signal)" : "Not applicable";
-    const reputation = ["Trusted", "Neutral", "Suspicious"][h % 3];
-    const repClass = reputation === "Trusted" ? "ok" : reputation === "Suspicious" ? "bad" : "warn";
-    const disposable = /(mailinator|tempmail|guerrilla|10minute)/.test(domain) ? "Yes" : "No";
-    const mx = isGmail ? "aspmx.l.google.com (Google)" : domain.split(".")[0] + "-mx." + domain;
-    const firstSeen = "20" + (15 + (h % 9)) + "-0" + (1 + (h % 8)) + "-1" + (h % 9);
-    const accounts = 3 + (h % 9);
+    const domain = email.split("@")[1] || "";
+    const isGmail = domain === "gmail.com";
+    const gravHash = md5(email);
 
-    const cards = [
+    // ---- Avatar (Gravatar image) ----
+    const avatarWrap = document.getElementById("emailAvatarWrap");
+    const avatarMeta = document.getElementById("emailAvatarMeta");
+    if (avatarWrap) {
+      avatarWrap.innerHTML = '<div class="email-avatar-loading"><span class="spinner-border spinner-border-sm text-info" role="status" aria-hidden="true"></span></div>';
+      const url = "https://www.gravatar.com/avatar/" + gravHash + "?s=240&d=404";
+      const img = new Image();
+      img.alt = "Gravatar image for " + email;
+      img.onload = () => {
+        avatarWrap.innerHTML = "";
+        img.className = "email-avatar-img";
+        avatarWrap.appendChild(img);
+        if (avatarMeta) avatarMeta.innerHTML = 'Gravatar hit • <a href="' + url + '" target="_blank" rel="noopener" class="text-cyan">open image</a>';
+      };
+      img.onerror = () => {
+        avatarWrap.innerHTML = '<div class="email-avatar-fallback"><i class="bi bi-person-slash" aria-hidden="true"></i></div>';
+        if (avatarMeta) avatarMeta.textContent = "No public Gravatar found";
+      };
+      img.src = url;
+    }
+
+    // ---- Gravatar profile JSON (real fetch) ----
+    let gravProfile = null;
+    try {
+      const r = await fetch("https://www.gravatar.com/" + gravHash + ".json", { headers: { "Accept": "application/json" } });
+      if (r.ok) {
+        const j = await r.json();
+        if (j && j.entry && j.entry[0]) gravProfile = j.entry[0];
+      }
+    } catch (_) { /* CORS or network */ }
+
+    // ---- GitHub user search (real fetch) ----
+    let ghUsers = [];
+    try {
+      const q = encodeURIComponent(email + " in:email");
+      const r = await fetch("https://api.github.com/search/users?q=" + q + "&per_page=5");
+      if (r.ok) {
+        const j = await r.json();
+        ghUsers = (j.items || []).slice(0, 5);
+      }
+      // Fallback: try username search
+      if (ghUsers.length === 0) {
+        const r2 = await fetch("https://api.github.com/users/" + encodeURIComponent(localPart));
+        if (r2.ok) {
+          const u = await r2.json();
+          if (u && u.login) ghUsers = [u];
+        }
+      }
+    } catch (_) { /* network */ }
+
+    // ---- Signals grid ----
+    const disposable = /(mailinator|tempmail|guerrilla|10minute|yopmail|trashmail)/.test(domain);
+    const mx = isGmail ? "aspmx.l.google.com (Google)" : (domain ? domain.split(".")[0] + "-mx." + domain : "—");
+    const signals = [
       ["Address", email, ""],
-      ["Provider", isGmail ? "Google (Gmail)" : domain, isGmail ? "ok" : ""],
-      ["MX record", mx, "ok"],
-      ["Deliverable", "Yes", "ok"],
-      ["Disposable", disposable, disposable === "Yes" ? "bad" : "ok"],
-      ["Reputation", reputation, repClass],
-      ["Breach exposures", String(breachCount), breachCount > 2 ? "bad" : breachCount > 0 ? "warn" : "ok"],
-      ["Breach corpus", breaches, ""],
-      ["Gravatar", gravatar ? "Profile found" : "None", gravatar ? "ok" : ""],
-      ["Google account", googleAcct, isGmail ? "warn" : ""],
-      ["Linked services", String(accounts) + " public matches", "warn"],
-      ["First public sighting", firstSeen, ""],
+      ["Provider", isGmail ? "Google (Gmail)" : (domain || "—"), isGmail ? "ok" : ""],
+      ["MX (heuristic)", mx, isGmail ? "ok" : ""],
+      ["Disposable", disposable ? "Yes" : "No", disposable ? "bad" : "ok"],
+      ["Google account signal", isGmail ? "Likely (Gmail domain)" : "Not applicable", isGmail ? "warn" : ""],
+      ["Gravatar profile", gravProfile ? "Public profile found" : (gravProfile === null ? "Not public" : "—"), gravProfile ? "ok" : ""],
+      ["Gravatar display name", (gravProfile && gravProfile.displayName) || (gravProfile && gravProfile.name && (gravProfile.name.formatted)) || "—", ""],
+      ["Gravatar location", (gravProfile && gravProfile.currentLocation) || "—", ""],
+      ["GitHub match", ghUsers.length ? ghUsers[0].login : "None found", ghUsers.length ? "ok" : ""],
       ["Username seed", localPart, ""],
     ];
-    const grid = document.getElementById("gmailResults");
-    grid.innerHTML = cards.map(([k, v, cls]) => (
-      '<div class="gmail-card"><div class="k">' + k + '</div><div class="v ' + (cls || "") + '">' + String(v) + '</div></div>'
-    )).join("");
+    const sig = document.getElementById("emailSignals");
+    if (sig) {
+      sig.innerHTML = signals.map(([k, v, cls]) => (
+        '<div class="gmail-card"><div class="k">' + k + '</div><div class="v ' + (cls || "") + '">' + escapeHtml(String(v)) + '</div></div>'
+      )).join("");
+    }
 
-    const sources = [
-      "OSINT Framework", "osint.rocks", "Epieos (public checks)",
-      "HaveIBeenPwned", "Gravatar", "Hunter.io (pattern)",
-      "DeHashed (index only)", "Google Recovery", "GitHub commit index",
+    // ---- Linked accounts / candidate profile URLs ----
+    const candidates = [
+      ["GitHub", "bi-github", "https://github.com/" + encodeURIComponent(localPart), ghUsers.length ? "confirmed" : "candidate"],
+      ["Gravatar profile", "bi-person-badge", "https://www.gravatar.com/" + gravHash, gravProfile ? "confirmed" : "candidate"],
+      ["Twitter / X", "bi-twitter-x", "https://x.com/" + encodeURIComponent(localPart), "candidate"],
+      ["Instagram", "bi-instagram", "https://instagram.com/" + encodeURIComponent(localPart), "candidate"],
+      ["Reddit", "bi-reddit", "https://www.reddit.com/user/" + encodeURIComponent(localPart), "candidate"],
+      ["Medium", "bi-medium", "https://medium.com/@" + encodeURIComponent(localPart), "candidate"],
+      ["Dev.to", "bi-braces", "https://dev.to/" + encodeURIComponent(localPart), "candidate"],
+      ["GitLab", "bi-git", "https://gitlab.com/" + encodeURIComponent(localPart), "candidate"],
+      ["Stack Overflow", "bi-stack-overflow", "https://stackoverflow.com/users?tab=Users&search=" + encodeURIComponent(email), "candidate"],
+      ["Keybase", "bi-key", "https://keybase.io/" + encodeURIComponent(localPart), "candidate"],
+      ["LinkedIn", "bi-linkedin", "https://www.linkedin.com/search/results/all/?keywords=" + encodeURIComponent(email), "candidate"],
+      ["HaveIBeenPwned", "bi-shield-exclamation", "https://haveibeenpwned.com/account/" + encodeURIComponent(email), "candidate"],
+      ["Google (recovery)", "bi-google", "https://accounts.google.com/signin/v2/usernamerecovery?email=" + encodeURIComponent(email), isGmail ? "candidate" : "n/a"],
+      ["OSINT Framework", "bi-diagram-3", "https://osintframework.com/", "reference"],
+      ["osint.rocks (email)", "bi-envelope-open", "https://osint.rocks/", "reference"],
     ];
-    document.getElementById("gmailSources").innerHTML =
-      '<span class="text-muted-2" style="font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-right:.4rem">Sources referenced:</span>' +
-      sources.map((s) => '<span class="gmail-src">' + s + '</span>').join("");
+    // If Gravatar profile has verified accounts, promote them
+    if (gravProfile && Array.isArray(gravProfile.accounts)) {
+      gravProfile.accounts.forEach((a) => {
+        candidates.unshift([a.shortname || a.name || "verified", "bi-patch-check", a.url, "confirmed"]);
+      });
+    }
+
+    const grid = document.getElementById("emailAccounts");
+    if (grid) {
+      grid.innerHTML = candidates.map(([name, icon, url, state]) => {
+        const badge = state === "confirmed"
+          ? '<span class="acct-badge ok"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Confirmed</span>'
+          : state === "n/a"
+            ? '<span class="acct-badge">N/A</span>'
+            : state === "reference"
+              ? '<span class="acct-badge">Reference</span>'
+              : '<span class="acct-badge warn"><i class="bi bi-search" aria-hidden="true"></i> Candidate</span>';
+        return (
+          '<a class="acct-card ' + state + '" href="' + url + '" target="_blank" rel="noopener noreferrer">' +
+          '<div class="acct-head"><i class="bi ' + icon + '" aria-hidden="true"></i><span class="acct-name">' + escapeHtml(name) + '</span></div>' +
+          '<div class="acct-url">' + escapeHtml(url.replace(/^https?:\/\//, "")) + '</div>' +
+          badge +
+          '</a>'
+        );
+      }).join("");
+    }
+
+    const sourcesEl = document.getElementById("emailSources");
+    if (sourcesEl) {
+      const sources = ["Gravatar (live)", "GitHub API (live)", "OSINT Framework", "osint.rocks", "HaveIBeenPwned", "Google Recovery"];
+      sourcesEl.innerHTML =
+        '<span class="text-muted-2" style="font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;margin-right:.4rem">Sources referenced:</span>' +
+        sources.map((s) => '<span class="gmail-src">' + escapeHtml(s) + '</span>').join("");
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
   }
 
   // ---------- PDF Export ----------
@@ -638,7 +750,7 @@
     y += 10;
 
     // Gmail results (if present)
-    const gmailCards = Array.from(document.querySelectorAll("#gmailResults .gmail-card"));
+    const gmailCards = Array.from(document.querySelectorAll("#emailSignals .gmail-card"));
     if (gmailCards.length) {
       if (y > 720) { doc.addPage(); y = M; }
       doc.setFont("helvetica", "bold"); doc.text("Email / Gmail Intelligence", M, y); y += 16;
