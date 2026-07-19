@@ -4,17 +4,18 @@ import { useEffect } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "OS-POINT — Enterprise Open Source Intelligence Platform" },
+      { title: "OS-POINT — Enterprise Threat Intelligence Platform" },
       {
         name: "description",
         content:
-          "OS-POINT is a premium OSINT platform for authorized security teams: phone, email, IP, username, threat and metadata intelligence with live dashboards.",
+          "OS-POINT is an enterprise OSINT & threat intelligence platform for SOC analysts, DFIR teams, and threat hunters. Investigate emails, domains, IPs, usernames, and infrastructure in real time.",
       },
+      { name: "theme-color", content: "#0b1220" },
       { property: "og:title", content: "OS-POINT — Intelligence Beyond Visibility" },
       {
         property: "og:description",
         content:
-          "Enterprise-grade OSINT: investigate targets, correlate entities, and monitor global threat activity in real time.",
+          "Enterprise-grade OSINT command center: real-time DNS, WHOIS, breach, and infrastructure intelligence for authorized security operations.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -29,19 +30,11 @@ export const Route = createFileRoute("/")({
         rel: "stylesheet",
         href: "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css",
       },
-      {
-        rel: "stylesheet",
-        href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://unpkg.com/aos@2.3.4/dist/aos.css",
-      },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap",
       },
     ],
   }),
@@ -50,15 +43,9 @@ export const Route = createFileRoute("/")({
 
 function OSPoint() {
   useEffect(() => {
-    // Load CDN scripts sequentially so dependencies exist before script.js runs
     const scripts = [
       "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
-      "https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js",
-      "https://unpkg.com/aos@2.3.4/dist/aos.js",
-      "https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js",
       "https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js",
-      "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js",
-      "https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js",
       "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
       "/script.js",
     ];
@@ -80,657 +67,487 @@ function OSPoint() {
 
   return (
     <>
-      <a href="#home" className="skip-link">Skip to main content</a>
-      <div id="cursor-glow" aria-hidden="true" />
+      <a href="#main" className="skip-link">Skip to main content</a>
 
-
-
-      {/* NAV */}
-      <nav className="osp-nav navbar navbar-expand-lg">
-        <div className="container">
-          <a className="navbar-brand" href="#">
-            <span className="brand-mark">
-              <i className="bi bi-radar"></i>
-            </span>
-            OS-POINT
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navMain"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" style={{ filter: "invert(1)" }}></span>
+      {/* TOP BAR */}
+      <header className="osp-topbar" role="banner">
+        <div className="topbar-inner">
+          <button className="sidebar-toggle" id="sidebarToggle" aria-label="Toggle navigation">
+            <i className="bi bi-list"></i>
           </button>
-          <div className="collapse navbar-collapse" id="navMain">
-            <ul className="navbar-nav mx-auto">
-              <li className="nav-item"><a className="nav-link active" href="#home">Home</a></li>
-              <li className="nav-item"><a className="nav-link" href="#modules">Modules</a></li>
-              <li className="nav-item"><a className="nav-link" href="#dashboard">Dashboard</a></li>
-              <li className="nav-item"><a className="nav-link" href="#intel">Intelligence</a></li>
-              <li className="nav-item"><a className="nav-link" href="#api">API</a></li>
-              <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
-              <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
-            </ul>
-            <div className="d-flex gap-2">
-              <button type="button" className="btn btn-ghost btn-sm-cyber" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-              <button type="button" className="btn btn-cyber btn-sm-cyber" data-bs-toggle="modal" data-bs-target="#signupModal">Get Started</button>
-            </div>
-          </div>
-        </div>
-      </nav>
+          <a href="#dashboard" className="brand" aria-label="OS-POINT home">
+            <span className="brand-mark" aria-hidden="true">
+              <span className="brand-dot" />
+            </span>
+            <span className="brand-name">OS-POINT</span>
+            <span className="brand-tag">Intelligence</span>
+          </a>
 
-      {/* HERO */}
-      <header id="home" className="hero">
-        <div id="particles-hero"></div>
-        <div className="binary-rain"></div>
-        <div className="container position-relative" style={{ zIndex: 2 }}>
-          <div className="row align-items-center g-5">
-            <div className="col-lg-7">
-              <span className="chip"><span className="dot"></span> Live • Authorized OSINT Demo</span>
-              <h1 className="hero-title">
-                Intelligence <span className="text-grad">Beyond Visibility</span>
-              </h1>
-              <p className="hero-sub">
-                OS-POINT is an enterprise Open Source Intelligence platform for
-                authorized security teams. Investigate targets, correlate
-                entities, and monitor global threat activity from a single
-                mission-grade console.
-              </p>
-              <div className="typed-line mono">
-                <span id="typed"></span>
-              </div>
-              <div className="hero-cta d-flex flex-wrap gap-3">
-                <a href="#dashboard" className="btn btn-cyber">
-                  <i className="bi bi-crosshair2 me-2"></i> Launch Investigation
-                </a>
-                <a href="#modules" className="btn btn-ghost">
-                  Explore Platform <i className="bi bi-arrow-right ms-1"></i>
-                </a>
-              </div>
-              <div className="d-flex gap-4 mt-4 text-muted-2" style={{ fontSize: ".82rem" }}>
-                <div><i className="bi bi-shield-check text-cyan me-1"></i> SOC 2 Ready</div>
-                <div><i className="bi bi-lock text-cyan me-1"></i> Zero Data Retention</div>
-                <div><i className="bi bi-globe2 text-cyan me-1"></i> 230+ Countries</div>
-              </div>
+          <div className="global-search" role="search">
+            <i className="bi bi-search" aria-hidden="true"></i>
+            <input
+              id="globalSearch"
+              type="search"
+              placeholder="Search across intelligence modules…"
+              aria-label="Global search"
+              autoComplete="off"
+            />
+            <kbd className="kbd-hint" aria-hidden="true">⌘ K</kbd>
+          </div>
+
+          <div className="topbar-actions">
+            <button className="icon-btn" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+              <i className="bi bi-moon-stars"></i>
+            </button>
+            <button className="icon-btn has-dot" aria-label="Notifications" title="Notifications" data-bs-toggle="dropdown">
+              <i className="bi bi-bell"></i>
+              <span className="dot" aria-hidden="true"></span>
+            </button>
+            <div className="dropdown-menu dropdown-menu-end notif-menu">
+              <div className="notif-header">Notifications <span className="pill">3 new</span></div>
+              <div className="notif-item"><i className="bi bi-shield-exclamation text-warn"></i><div><strong>New breach corpus indexed</strong><span>collection-192 · 44M records · 2m ago</span></div></div>
+              <div className="notif-item"><i className="bi bi-diagram-3 text-cyan"></i><div><strong>Investigation ready</strong><span>case-2041 finished DNS enrichment · 12m ago</span></div></div>
+              <div className="notif-item"><i className="bi bi-graph-up-arrow text-green"></i><div><strong>Threat feed updated</strong><span>18 new IoCs from OTX · 34m ago</span></div></div>
             </div>
-            <div className="col-lg-5" data-aos="zoom-in">
-              <div className="scan-visual">
-                <div className="scan-ring"></div>
-                <div className="scan-ring r2"></div>
-                <div className="scan-ring r3"></div>
-                <div className="scan-ring r4"></div>
-                <div className="scan-sweep"></div>
-                <div className="scan-center"></div>
-                <span className="node n1"></span>
-                <span className="node n2"></span>
-                <span className="node n3"></span>
-                <span className="node n4"></span>
-                <span className="node n5"></span>
-              </div>
-            </div>
+            <div className="topbar-divider" />
+            <button className="user-chip" aria-label="Profile menu" data-bs-toggle="dropdown">
+              <span className="avatar">AK</span>
+              <span className="user-meta">
+                <span className="user-name">Analyst · Kaur</span>
+                <span className="user-role">Enterprise · Tier 2</span>
+              </span>
+              <i className="bi bi-chevron-down"></i>
+            </button>
+            <ul className="dropdown-menu dropdown-menu-end">
+              <li><a className="dropdown-item" href="#"><i className="bi bi-person"></i> Profile</a></li>
+              <li><a className="dropdown-item" href="#settings"><i className="bi bi-gear"></i> Settings</a></li>
+              <li><a className="dropdown-item" href="#"><i className="bi bi-key"></i> API keys</a></li>
+              <li><hr className="dropdown-divider" /></li>
+              <li><a className="dropdown-item" href="#" data-osp-signout><i className="bi bi-box-arrow-right"></i> Sign out</a></li>
+            </ul>
           </div>
         </div>
       </header>
 
-      {/* STATS */}
-      <section className="section" style={{ paddingTop: "2rem" }}>
-        <div className="container">
-          <div className="row g-3">
-            {[
-              { n: 12000000, s: "+", d: "12M+", l: "Investigations Run" },
-              { n: 230, s: "+", d: "230+", l: "Countries Covered" },
-              { n: 400, s: "+", d: "400+", l: "Data Sources" },
-              { n: 99.98, s: "%", d: "99.98%", l: "Platform Uptime" },
-              { n: 1200000000, s: "+", d: "1.2B+", l: "Records Indexed" },
-            ].map((s, i) => (
-              <div key={i} className="col-6 col-md-4 col-lg" data-aos="fade-up" data-aos-delay={i * 60}>
-                <div className="glass stat">
-                  <div className="num" data-count={s.n} data-suffix={s.s} data-display={s.d}>0</div>
-                  <div className="lbl">{s.l}</div>
-                </div>
+      {/* APP SHELL */}
+      <div className="app-shell">
+        {/* SIDEBAR */}
+        <aside className="osp-sidebar" id="ospSidebar" aria-label="Primary navigation">
+          <div className="side-section">
+            <div className="side-label">Workspace</div>
+            <a className="side-link active" href="#dashboard"><i className="bi bi-grid-1x2"></i><span>Dashboard</span></a>
+            <a className="side-link" href="#investigate"><i className="bi bi-crosshair"></i><span>Investigate</span><span className="side-kbd">/</span></a>
+            <a className="side-link" href="#cases"><i className="bi bi-folder2-open"></i><span>Cases</span></a>
+            <a className="side-link" href="#reports"><i className="bi bi-file-earmark-text"></i><span>Reports</span></a>
+          </div>
+          <div className="side-section">
+            <div className="side-label">Intelligence Modules</div>
+            <a className="side-link" href="#investigate" data-entity="email"><i className="bi bi-envelope-at"></i><span>Email</span></a>
+            <a className="side-link" href="#investigate" data-entity="domain"><i className="bi bi-globe2"></i><span>Domain</span></a>
+            <a className="side-link" href="#investigate" data-entity="ip"><i className="bi bi-hdd-network"></i><span>IP</span></a>
+            <a className="side-link" href="#investigate" data-entity="username"><i className="bi bi-at"></i><span>Username</span></a>
+            <a className="side-link" href="#investigate" data-entity="phone"><i className="bi bi-telephone"></i><span>Phone</span></a>
+            <a className="side-link" href="#investigate" data-entity="hash"><i className="bi bi-fingerprint"></i><span>Hash</span></a>
+            <a className="side-link" href="#investigate" data-entity="url"><i className="bi bi-link-45deg"></i><span>URL</span></a>
+            <a className="side-link" href="#investigate" data-entity="image"><i className="bi bi-image"></i><span>Face / Image</span></a>
+          </div>
+          <div className="side-section">
+            <div className="side-label">Platform</div>
+            <a className="side-link" href="#threats"><i className="bi bi-activity"></i><span>Threat Feed</span><span className="live-dot" aria-hidden="true" /></a>
+            <a className="side-link" href="#api"><i className="bi bi-code-slash"></i><span>API</span></a>
+            <a className="side-link" href="#docs"><i className="bi bi-book"></i><span>Documentation</span></a>
+            <a className="side-link" href="#pricing"><i className="bi bi-tag"></i><span>Pricing</span></a>
+            <a className="side-link" href="#settings"><i className="bi bi-sliders"></i><span>Settings</span></a>
+          </div>
+          <div className="side-foot">
+            <div className="status-line"><span className="live-dot" /> All systems operational</div>
+            <div className="status-sub">API p95 · 142 ms</div>
+          </div>
+        </aside>
+
+        <main className="osp-main" id="main" role="main">
+          {/* DASHBOARD */}
+          <section id="dashboard" className="page-section">
+            <div className="page-head">
+              <div>
+                <div className="eyebrow">Command Center</div>
+                <h1 className="page-title">Threat Intelligence Dashboard</h1>
+                <p className="page-sub">Authorized OSINT workflows across email, infrastructure, and identity — with live enrichment.</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* MODULES */}
-      <section id="modules" className="section">
-        <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="section-eyebrow">Intelligence Modules</span>
-            <h2 className="section-title">A full-spectrum <span className="text-grad">OSINT arsenal</span></h2>
-            <p className="section-sub mx-auto">
-              Twenty specialized modules covering identity, network, threat, and
-              content intelligence — all designed for authorized security work.
-            </p>
-          </div>
-          <div className="row g-3">
-            {[
-              ["bi-telephone-fill", "Phone Intelligence", "Carrier, geo, footprint"],
-              ["bi-envelope-fill", "Email Intelligence", "Breach & reputation lookup"],
-              ["bi-hdd-network-fill", "IP Intelligence", "ASN, geo, threat class"],
-              ["bi-person-badge-fill", "Username Intelligence", "Cross-platform correlation"],
-              ["bi-globe", "Domain Intelligence", "Registration & subdomains"],
-              ["bi-journal-code", "WHOIS Lookup", "Ownership & history"],
-              ["bi-diagram-3-fill", "DNS Lookup", "A, MX, TXT, DNSSEC"],
-              ["bi-file-earmark-binary", "Metadata Extraction", "EXIF, docs, signatures"],
-              ["bi-image-fill", "Image Intelligence", "Forensics & similarity"],
-              ["bi-arrow-repeat", "Reverse Image", "Web presence matching"],
-              ["bi-emoji-smile", "Facial Recognition", "Demo model only"],
-              ["bi-incognito", "Dark Web Monitor", "Leak surface tracking"],
-              ["bi-shield-exclamation", "Breach Lookup", "Credential exposure"],
-              ["bi-broadcast-pin", "Threat Feed", "Live IOC aggregation"],
-              ["bi-hash", "Hash Analysis", "MD5, SHA, ssdeep"],
-              ["bi-bug-fill", "Malware Sandbox", "Behavioral triage"],
-              ["bi-geo-alt-fill", "Geo Intelligence", "Location correlation"],
-              ["bi-people-fill", "Social Intelligence", "Public profile graph"],
-              ["bi-file-earmark-text-fill", "Document Intelligence", "OSINT doc parsing"],
-              ["bi-building", "Company Intelligence", "Corp records & filings"],
-            ].map(([icon, title, sub], i) => (
-              <div key={i} className="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay={(i % 4) * 60}>
-                <div className="glass module-card" data-tilt>
-                  <span className="m-tag">Live</span>
-                  <div className="module-icon"><i className={`bi ${icon}`}></i></div>
-                  <h5>{title}</h5>
-                  <p>{sub}</p>
-                </div>
+              <div className="page-head-actions">
+                <button className="btn-ghost" id="openCmdPalette"><i className="bi bi-command"></i> Command palette <kbd>⌘K</kbd></button>
+                <a href="#investigate" className="btn-primary"><i className="bi bi-crosshair"></i> New investigation</a>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SEARCH DASHBOARD */}
-      <section id="dashboard" className="section">
-        <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="section-eyebrow">Investigation Console</span>
-            <h2 className="section-title">Search across <span className="text-grad">every surface</span></h2>
-            <p className="section-sub mx-auto">
-              Pivot from a single identifier to a full investigation. All results
-              below are demonstration data.
-            </p>
-          </div>
-
-          <div className="glass dash" data-aos="fade-up">
-            <div className="dash-tabs" role="tablist" aria-label="Investigation target type">
-              {[
-                ["phone", "bi-telephone", "Phone"],
-                ["email", "bi-envelope", "Email"],
-                ["ip", "bi-hdd-network", "IP"],
-                ["username", "bi-person", "Username"],
-                ["face", "bi-emoji-smile", "Face"],
-                ["domain", "bi-globe", "Domain"],
-                ["hash", "bi-hash", "Hash"],
-              ].map(([kind, icon, label], i) => (
-                <button
-                  key={kind}
-                  type="button"
-                  role="tab"
-                  tabIndex={i === 0 ? 0 : -1}
-                  aria-selected={i === 0 ? "true" : "false"}
-                  className={`dash-tab ${i === 0 ? "active" : ""}`}
-                  data-kind={kind}
-                >
-                  <i className={`bi ${icon}`} aria-hidden="true"></i> {label}
-                </button>
-              ))}
             </div>
 
-            <form id="searchForm" className="search-input-wrap" role="search" aria-label="Investigate a target">
-              <label htmlFor="searchInput" className="sr-only">Target identifier</label>
-              <input
-                id="searchInput"
-                className="search-input"
-                placeholder="Enter phone target..."
-                defaultValue="+1 (415) 555-0142"
-                autoComplete="off"
-              />
-              <button className="search-btn" type="submit">
-                <i className="bi bi-search me-1" aria-hidden="true"></i> Investigate
-              </button>
-            </form>
+            <div className="kpi-row">
+              <KpiCard icon="bi-search" label="Investigations · 24h" value="1,284" delta="+12.4%" tone="cyan" />
+              <KpiCard icon="bi-shield-exclamation" label="High-risk indicators" value="47" delta="+8" tone="warn" />
+              <KpiCard icon="bi-database" label="Corpora indexed" value="812" delta="+3" tone="green" />
+              <KpiCard icon="bi-lightning-charge" label="Avg. enrichment" value="1.42s" delta="-9%" tone="violet" />
+            </div>
 
-            <div id="resultPanel" className="result-panel" style={{ display: "none" }}>
-              <div className="result-head">
-                <div>
-                  <div className="text-muted-2" style={{ fontSize: ".76rem", letterSpacing: ".1em", textTransform: "uppercase" }}>Target</div>
-                  <div id="resTarget" className="target">—</div>
-                </div>
-                <div className="d-flex align-items-center gap-3">
-                  <span className="chip"><span className="dot"></span> <span id="resStatus">Idle</span></span>
-                  <button id="exportPdfBtn" type="button" className="btn btn-ghost btn-sm-cyber" aria-label="Download investigation report as PDF"><i className="bi bi-download me-1" aria-hidden="true"></i> Export PDF</button>
-                </div>
-              </div>
-              <div className="result-body">
-                <div className="row g-3">
-                  <div className="col-6 col-md-3">
-                    <div className="metric">
-                      <div className="k">Confidence</div>
-                      <div className="v g" id="resConf">0%</div>
-                    </div>
+            <div className="grid-2">
+              <div className="panel">
+                <div className="panel-head">
+                  <div>
+                    <h3 className="panel-title">Investigation volume</h3>
+                    <p className="panel-sub">Rolling 14-day window across all modules</p>
                   </div>
-                  <div className="col-6 col-md-3">
-                    <div className="metric">
-                      <div className="k">Risk Score</div>
-                      <div className="v w" id="resRisk">0</div>
-                    </div>
-                  </div>
-                  <div className="col-6 col-md-3">
-                    <div className="metric">
-                      <div className="k">Sources Hit</div>
-                      <div className="v c" id="resSources">0</div>
-                    </div>
-                  </div>
-                  <div className="col-6 col-md-3">
-                    <div className="metric">
-                      <div className="k">Entities Found</div>
-                      <div className="v c" id="resEntities">0</div>
-                    </div>
+                  <div className="segmented" role="tablist">
+                    <button role="tab" className="active">14d</button>
+                    <button role="tab">30d</button>
+                    <button role="tab">90d</button>
                   </div>
                 </div>
-
-                <div className="row g-3 mt-1">
-                  <div className="col-md-4">
-                    <div className="metric h-100 d-flex flex-column align-items-center justify-content-center">
-                      <div className="k mb-2">Overall</div>
-                      <div id="scoreRing" className="score-ring" style={{ ["--p" as never]: 78 } as never}>
-                        <span>78%</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="metric h-100">
-                      <div className="k mb-2">Geo Snapshot</div>
-                      <div className="graph-placeholder" style={{ aspectRatio: "4/3" }}>
-                        <div className="gnode" style={{ top: "30%", left: "20%" }}></div>
-                        <div className="gnode" style={{ top: "55%", left: "48%", background: "#00FF88", boxShadow: "0 0 12px #00FF88" }}></div>
-                        <div className="gnode" style={{ top: "40%", left: "78%" }}></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="metric h-100">
-                      <div className="k mb-2">Timeline</div>
-                      <div className="timeline">
-                        <div className="tl-item"><div className="tt">2024-11 · SRC-14</div><div className="th">First appearance on public dataset</div></div>
-                        <div className="tl-item"><div className="tt">2025-03 · SRC-42</div><div className="th">Linked to secondary identifier</div></div>
-                        <div className="tl-item"><div className="tt">2025-08 · SRC-71</div><div className="th">Observed on breach corpus</div></div>
-                        <div className="tl-item"><div className="tt">2026-06 · SRC-88</div><div className="th">Recent activity flagged</div></div>
-                      </div>
-                    </div>
+                <div className="chart-wrap"><canvas id="volChart" height="180" aria-label="Investigation volume chart"></canvas></div>
+              </div>
+              <div className="panel">
+                <div className="panel-head">
+                  <div>
+                    <h3 className="panel-title">Risk distribution</h3>
+                    <p className="panel-sub">Enrichment confidence bands across recent cases</p>
                   </div>
                 </div>
+                <div className="chart-wrap"><canvas id="riskChart" height="180" aria-label="Risk distribution chart"></canvas></div>
+              </div>
+            </div>
 
-                <div className="row g-3 mt-1">
-                  <div className="col-md-12">
-                    <div className="metric">
-                      <div className="k mb-2">Relationship Graph (demo)</div>
-                      <div id="relGraph" className="graph-placeholder"></div>
-                    </div>
+            <div className="grid-3">
+              <div className="panel">
+                <div className="panel-head"><h3 className="panel-title">Recent investigations</h3><a href="#cases" className="link-muted">View all →</a></div>
+                <ul className="list-clean" id="recentList" aria-live="polite"></ul>
+              </div>
+              <div className="panel">
+                <div className="panel-head"><h3 className="panel-title">Live threat feed</h3><span className="live-dot" aria-hidden="true"></span></div>
+                <ul className="threat-feed" id="threatFeed" aria-live="polite"></ul>
+              </div>
+              <div className="panel">
+                <div className="panel-head"><h3 className="panel-title">Global signal map</h3><span className="pill">Simulated</span></div>
+                <div className="mapwrap" id="mapWrap" aria-hidden="true"></div>
+                <div className="legend"><span><em className="dot cyan" /> Enrichment</span><span><em className="dot warn" /> High-risk</span><span><em className="dot green" /> Benign</span></div>
+              </div>
+            </div>
+          </section>
+
+          {/* INVESTIGATE — Search command center */}
+          <section id="investigate" className="page-section">
+            <div className="page-head">
+              <div>
+                <div className="eyebrow">Investigation Console</div>
+                <h2 className="page-title">Search everything</h2>
+                <p className="page-sub">Pick an entity type, paste an indicator, and watch enrichment stream in.</p>
+              </div>
+            </div>
+
+            <div className="console">
+              <div className="entity-tabs" role="tablist" aria-label="Entity type">
+                {[
+                  ["email", "bi-envelope-at", "Email"],
+                  ["domain", "bi-globe2", "Domain"],
+                  ["ip", "bi-hdd-network", "IP"],
+                  ["username", "bi-at", "Username"],
+                  ["phone", "bi-telephone", "Phone"],
+                  ["hash", "bi-fingerprint", "Hash"],
+                  ["url", "bi-link-45deg", "URL"],
+                  ["image", "bi-image", "Image"],
+                ].map(([id, icon, label]) => (
+                  <button
+                    key={id}
+                    role="tab"
+                    className={"etab" + (id === "email" ? " active" : "")}
+                    data-entity={id}
+                    aria-selected={id === "email"}
+                  >
+                    <i className={"bi " + icon}></i> {label}
+                  </button>
+                ))}
+              </div>
+
+              <form className="console-form" id="investigateForm" autoComplete="off" noValidate>
+                <div className="input-shell">
+                  <i className="bi bi-search input-icon" aria-hidden="true"></i>
+                  <input
+                    id="investigateInput"
+                    className="console-input"
+                    type="text"
+                    placeholder="e.g. torvalds@linux-foundation.org"
+                    aria-label="Indicator to investigate"
+                  />
+                  <div className="validation" id="validation" aria-live="polite"></div>
+                </div>
+                <div className="console-actions">
+                  <div className="filter-chips">
+                    <label className="chip"><input type="checkbox" defaultChecked /> DNS</label>
+                    <label className="chip"><input type="checkbox" defaultChecked /> WHOIS</label>
+                    <label className="chip"><input type="checkbox" defaultChecked /> Avatar</label>
+                    <label className="chip"><input type="checkbox" defaultChecked /> Breaches</label>
+                    <label className="chip"><input type="checkbox" /> Username enum</label>
                   </div>
+                  <button type="submit" className="btn-primary btn-lg" id="runBtn">
+                    <i className="bi bi-play-fill"></i> Investigate
+                  </button>
                 </div>
-
-                {/* Email Intelligence — appears only when Email tab is active */}
-                <div id="emailIntel" className="email-intel" style={{ display: "none" }} aria-live="polite">
-                  <div className="row g-3 mt-1">
-                    <div className="col-md-4">
-                      <div className="metric h-100 d-flex flex-column align-items-center text-center">
-                        <div className="k mb-2">Public Avatar (Gravatar)</div>
-                        <div id="emailAvatarWrap" className="email-avatar">
-                          <div className="email-avatar-fallback"><i className="bi bi-person" aria-hidden="true"></i></div>
-                        </div>
-                        <div id="emailAvatarMeta" className="text-muted-2 mt-2" style={{ fontSize: ".78rem" }}>—</div>
-                      </div>
-                    </div>
-                    <div className="col-md-8">
-                      <div className="metric h-100">
-                        <div className="k mb-2">Email Signals</div>
-                        <div id="emailSignals" className="gmail-grid"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row g-3 mt-1">
-                    <div className="col-md-12">
-                      <div className="metric">
-                        <div className="k mb-2">Linked Accounts &amp; Public Profiles</div>
-                        <div id="emailAccounts" className="account-grid"></div>
-                        <div id="emailSources" className="gmail-sources"></div>
-                        <div className="text-muted-2 mt-2" style={{ fontSize: ".72rem" }}>
-                          Live probes: Gravatar avatar &amp; profile JSON, GitHub users API. Other providers are surfaced as verifiable candidate URLs — browser CORS prevents direct scraping from a pure frontend.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="console-foot">
+                  <div className="recent-label">Recent</div>
+                  <div className="recent-chips" id="recentChips"></div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* LIVE THREAT DASHBOARD */}
-      <section id="intel" className="section">
-        <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="section-eyebrow">Live Threat Intelligence</span>
-            <h2 className="section-title">Global activity, <span className="text-grad">observed in real time</span></h2>
-          </div>
-          <div className="row g-3">
-            <div className="col-lg-3 col-md-6" data-aos="fade-up">
-              <div className="glass widget">
-                <h6><span className="live"></span> Threat Level</h6>
-                <div className="threat-level">ELEVATED</div>
-                <div className="text-muted-2" style={{ fontSize: ".8rem" }}>Global surface score: <span className="text-cyan">72 / 100</span></div>
-                <div className="mt-3 shimmer" style={{ height: 6, borderRadius: 4 }}></div>
-              </div>
-            </div>
-            <div className="col-lg-6" data-aos="fade-up" data-aos-delay={80}>
-              <div className="glass widget">
-                <h6><span className="live"></span> Attacks vs. Blocked (24h)</h6>
-                <div style={{ height: 220 }}><canvas id="chartLine" className="chart"></canvas></div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay={120}>
-              <div className="glass widget">
-                <h6><span className="live"></span> Attack Types</h6>
-                <div style={{ height: 220 }}><canvas id="chartDoughnut" className="chart"></canvas></div>
-              </div>
-            </div>
-
-            <div className="col-lg-5" data-aos="fade-up">
-              <div className="glass widget">
-                <h6><span className="live"></span> Live IOC Stream</h6>
-                <div id="attackFeed" className="attack-feed"></div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay={80}>
-              <div className="glass widget">
-                <h6><span className="live"></span> Threat Surface</h6>
-                <div style={{ height: 260 }}><canvas id="chartRadar" className="chart"></canvas></div>
-              </div>
-            </div>
-            <div className="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay={120}>
-              <div className="glass widget">
-                <h6><span className="live"></span> Top Source Countries</h6>
-                <div style={{ height: 260 }}><canvas id="chartBar" className="chart"></canvas></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WORKFLOW */}
-      <section className="section">
-        <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="section-eyebrow">Investigation Workflow</span>
-            <h2 className="section-title">From identifier to <span className="text-grad">actionable report</span></h2>
-          </div>
-          <div className="glass p-4" data-aos="fade-up">
-            <div className="workflow">
-              {[
-                ["1", "Target Selected", "Choose identifier"],
-                ["2", "Data Collection", "Query 400+ sources"],
-                ["3", "Correlation", "Cross-reference data"],
-                ["4", "Entity Resolution", "Deduplicate & score"],
-                ["5", "Relationship Mapping", "Build graph"],
-                ["6", "Threat Analysis", "Risk & context"],
-                ["7", "Report Generation", "Export evidence"],
-              ].map(([n, t, d], i) => (
-                <div key={i} className="wf-step">
-                  <div className="n">{n}</div>
-                  <div className="t">{t}</div>
-                  <div className="d">{d}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section id="api" className="section">
-        <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="section-eyebrow">Platform Features</span>
-            <h2 className="section-title">Built for <span className="text-grad">serious operators</span></h2>
-          </div>
-          <div className="row g-3">
-            {[
-              ["bi-cpu", "AI Powered", "LLM-assisted correlation across signals."],
-              ["bi-lightning-charge", "Fast Investigation", "Median case resolution in under 60s."],
-              ["bi-shuffle", "Cross Correlation", "Bridge phone, email, IP, and social layers."],
-              ["bi-diagram-3", "Relationship Graphs", "Interactive entity graphs with pivots."],
-              ["bi-moon-stars", "Dark Mode Native", "Optimized for 24/7 SOC operations."],
-              ["bi-broadcast", "Threat Intelligence", "Fresh IOC and CVE feeds."],
-              ["bi-globe-americas", "Global Coverage", "230+ countries and 40+ languages."],
-              ["bi-plug", "API Ready", "REST + Webhook integrations."],
-              ["bi-file-earmark-arrow-down", "Export Reports", "PDF, STIX, JSON, and CSV."],
-              ["bi-collection", "Evidence Collection", "Chain-of-custody preserved."],
-              ["bi-shield-lock", "Zero Retention Mode", "Investigations vanish on close."],
-              ["bi-people", "Team Workspaces", "Case sharing and RBAC."],
-            ].map(([icon, t, d], i) => (
-              <div key={i} className="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay={(i % 3) * 60}>
-                <div className="glass feature" data-tilt>
-                  <div className="fi"><i className={`bi ${icon}`}></i></div>
-                  <h5 className="mb-1">{t}</h5>
-                  <p className="text-muted-2 mb-0" style={{ fontSize: ".9rem" }}>{d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section id="about" className="section">
-        <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="section-eyebrow">Trusted by Security Teams</span>
-            <h2 className="section-title">What operators <span className="text-grad">say</span></h2>
-          </div>
-          <div className="row g-3">
-            {[
-              ["OS-POINT collapsed our investigation time from days to minutes. The entity graph alone is worth the license.", "M. Kaur", "Threat Hunter, Blue Team"],
-              ["The IOC stream and pivoting UI feel like a real ops center. Our SOC picked it up in an afternoon.", "D. Ortega", "SOC Lead, Fintech"],
-              ["Finally an OSINT tool that respects chain of custody. Reports are court-ready out of the box.", "A. Reyes", "Digital Forensics Analyst"],
-              ["Great cross-correlation across phone, email, and username. Cuts through noise fast.", "S. Lindqvist", "CTI Analyst"],
-              ["The demo dashboards make executive briefings effortless. Charts export cleanly.", "R. Chen", "Security Director"],
-              ["Zero-retention mode makes legal happy. We use it for every external engagement.", "P. Mahmoud", "GRC Lead"],
-            ].map(([q, name, role], i) => (
-              <div key={i} className="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay={(i % 3) * 60}>
-                <div className="glass quote">
-                  <p>“{q}”</p>
-                  <div className="who">
-                    <div className="avatar">{String(name).split(" ").map((s) => s[0]).join("")}</div>
-                    <div>
-                      <div className="name">{name}</div>
-                      <div className="role">{role}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PRICING */}
-      <section id="start" className="section">
-        <div className="container">
-          <div className="text-center mb-5" data-aos="fade-up">
-            <span className="section-eyebrow">Pricing</span>
-            <h2 className="section-title">Choose your <span className="text-grad">operating tier</span></h2>
-          </div>
-          <div className="row g-3 justify-content-center">
-            {[
-              {
-                name: "Starter", price: "$0", per: "/mo",
-                items: ["5 investigations / day", "10 core modules", "Community support", "PDF export"],
-                cta: "Start Free", pop: false,
-              },
-              {
-                name: "Professional", price: "$249", per: "/mo",
-                items: ["Unlimited investigations", "All 20 modules", "Live threat feed", "API + webhooks", "Team of 10"],
-                cta: "Start Trial", pop: true,
-              },
-              {
-                name: "Enterprise", price: "Custom", per: "",
-                items: ["SSO + SAML", "Zero-retention mode", "Dedicated CSM", "On-prem option", "Custom integrations"],
-                cta: "Contact Sales", pop: false,
-              },
-            ].map((p, i) => (
-              <div key={i} className="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay={i * 80}>
-                <div className={`glass plan ${p.pop ? "pop" : ""}`}>
-                  {p.pop && <span className="badge-pop">Most Popular</span>}
-                  <div className="p-name">{p.name}</div>
-                  <div className="p-price">{p.price}<small>{p.per}</small></div>
-                  <ul>
-                    {p.items.map((it, j) => (
-                      <li key={j}><i className="bi bi-check-circle-fill"></i> {it}</li>
-                    ))}
-                  </ul>
-                  <a href="#" className={`btn ${p.pop ? "btn-cyber" : "btn-ghost"} w-100`}>{p.cta}</a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer id="contact">
-        <div className="container">
-          <div className="row g-4">
-            <div className="col-lg-4">
-              <a className="navbar-brand" href="#">
-                <span className="brand-mark"><i className="bi bi-radar"></i></span>
-                OS-POINT
-              </a>
-              <p className="text-muted-2 mt-3" style={{ fontSize: ".9rem", maxWidth: 340 }}>
-                Enterprise Open Source Intelligence for authorized security teams.
-                All investigation data shown on this site is demonstration content.
-              </p>
-              <div className="socials mt-3">
-                <a href="#" aria-label="Twitter"><i className="bi bi-twitter-x"></i></a>
-                <a href="#" aria-label="LinkedIn"><i className="bi bi-linkedin"></i></a>
-                <a href="#" aria-label="GitHub"><i className="bi bi-github"></i></a>
-                <a href="#" aria-label="YouTube"><i className="bi bi-youtube"></i></a>
-              </div>
-            </div>
-            <div className="col-6 col-lg-2">
-              <h6>Product</h6>
-              <a href="#modules">Modules</a>
-              <a href="#dashboard">Dashboard</a>
-              <a href="#intel">Threat Intel</a>
-              <a href="#api">API</a>
-            </div>
-            <div className="col-6 col-lg-2">
-              <h6>Company</h6>
-              <a href="#about">About</a>
-              <a href="#">Careers</a>
-              <a href="#">Press</a>
-              <a href="#">Legal</a>
-            </div>
-            <div className="col-lg-4">
-              <h6>Get intelligence briefings</h6>
-              <p className="text-muted-2" style={{ fontSize: ".86rem" }}>
-                Monthly CTI digest. No spam. Unsubscribe anytime.
-              </p>
-              <form className="newsletter d-flex" onSubmit={(e) => e.preventDefault()}>
-                <input type="email" placeholder="you@company.com" aria-label="Email" />
-                <button type="submit">Subscribe</button>
               </form>
             </div>
-          </div>
-          <div className="copy d-flex flex-wrap justify-content-between gap-2">
-            <div>© 2026 OS-POINT. Demonstration platform for authorized use only.</div>
+
+            {/* RESULTS */}
+            <div className="results-wrap" id="results" hidden aria-live="polite">
+              <div className="results-head">
+                <div>
+                  <div className="eyebrow" id="caseKind">Email intelligence</div>
+                  <h3 className="target-title" id="targetTitle">—</h3>
+                  <div className="target-meta">
+                    <span className="pill" id="caseId">CASE-—</span>
+                    <span className="pill pill-muted" id="caseTime">—</span>
+                    <span className="pill pill-muted" id="caseSources">0 sources</span>
+                  </div>
+                </div>
+                <div className="results-actions">
+                  <button className="btn-ghost" id="exportJson"><i className="bi bi-filetype-json"></i> JSON</button>
+                  <button className="btn-ghost" id="exportCsv"><i className="bi bi-filetype-csv"></i> CSV</button>
+                  <button className="btn-primary" id="exportPdf"><i className="bi bi-file-earmark-pdf"></i> Export PDF</button>
+                </div>
+              </div>
+
+              <div className="score-row">
+                <ScoreCard id="riskScore" label="Risk score" tone="warn" />
+                <ScoreCard id="confScore" label="Confidence" tone="cyan" />
+                <div className="score-card summary">
+                  <div className="score-label">Executive summary</div>
+                  <p id="execSummary" className="score-summary">Awaiting evidence…</p>
+                </div>
+              </div>
+
+              <div className="tabs-2" role="tablist">
+                <button role="tab" className="t2 active" data-view="identity">Identity</button>
+                <button role="tab" className="t2" data-view="infra">Infrastructure</button>
+                <button role="tab" className="t2" data-view="exposure">Exposure</button>
+                <button role="tab" className="t2" data-view="profiles">Public profiles</button>
+                <button role="tab" className="t2" data-view="evidence">Evidence</button>
+                <button role="tab" className="t2" data-view="timeline">Timeline</button>
+              </div>
+
+              <div className="view" data-view="identity">
+                <div className="grid-3">
+                  <div className="panel identity-card">
+                    <div className="identity-avatar" id="identityAvatarWrap">
+                      <div className="avatar-fallback">?</div>
+                    </div>
+                    <div className="identity-name" id="identityName">—</div>
+                    <div className="identity-sub" id="identitySub">No public identity resolved yet</div>
+                    <div className="identity-badges" id="identityBadges"></div>
+                  </div>
+                  <div className="panel span-2">
+                    <div className="panel-head"><h3 className="panel-title">Signals</h3><span className="pill" id="signalsCount">0</span></div>
+                    <div className="signal-grid" id="signalGrid"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="view" data-view="infra" hidden>
+                <div className="grid-2">
+                  <div className="panel">
+                    <div className="panel-head"><h3 className="panel-title">DNS records</h3><span className="pill" id="dnsCount">0</span></div>
+                    <div className="dns-table" id="dnsTable"></div>
+                  </div>
+                  <div className="panel">
+                    <div className="panel-head"><h3 className="panel-title">Mail authentication</h3></div>
+                    <div className="auth-grid" id="authGrid"></div>
+                  </div>
+                </div>
+                <div className="panel">
+                  <div className="panel-head"><h3 className="panel-title">WHOIS / RDAP</h3><span className="pill" id="whoisSrc">rdap.org</span></div>
+                  <div className="whois-grid" id="whoisGrid"></div>
+                </div>
+              </div>
+
+              <div className="view" data-view="exposure" hidden>
+                <div className="panel">
+                  <div className="panel-head"><h3 className="panel-title">Breach exposure</h3><span className="pill pill-muted">Requires authorized API key</span></div>
+                  <div className="breach-empty" id="breachEmpty">
+                    <i className="bi bi-shield-lock"></i>
+                    <div>
+                      <strong>Live breach lookups disabled</strong>
+                      <p>Connect HaveIBeenPwned or Enzoic in <a href="#settings">Settings → API keys</a> to enable authorized breach enrichment. Placeholder heuristics are shown below.</p>
+                    </div>
+                  </div>
+                  <div className="breach-list" id="breachList"></div>
+                </div>
+              </div>
+
+              <div className="view" data-view="profiles" hidden>
+                <div className="panel">
+                  <div className="panel-head">
+                    <h3 className="panel-title">Public profiles</h3>
+                    <span className="pill pill-muted">Inferred from local-part</span>
+                  </div>
+                  <p className="panel-note">
+                    <i className="bi bi-info-circle"></i>
+                    Results below are <strong>inferred</strong> username matches based on the email local-part. Only entries with a <span className="badge-verify">Verified</span> badge are corroborated by a public source.
+                  </p>
+                  <div className="profile-grid" id="profileGrid"></div>
+                </div>
+              </div>
+
+              <div className="view" data-view="evidence" hidden>
+                <div className="panel">
+                  <div className="panel-head"><h3 className="panel-title">Evidence log</h3><span className="pill" id="evidenceCount">0</span></div>
+                  <div className="evidence-list" id="evidenceList"></div>
+                </div>
+              </div>
+
+              <div className="view" data-view="timeline" hidden>
+                <div className="panel">
+                  <div className="panel-head"><h3 className="panel-title">Investigation timeline</h3></div>
+                  <ol className="timeline" id="timeline"></ol>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* CASES */}
+          <section id="cases" className="page-section">
+            <div className="page-head">
+              <div>
+                <div className="eyebrow">Cases</div>
+                <h2 className="page-title">Saved investigations</h2>
+                <p className="page-sub">Pin, tag, and reopen cases you've run in this workspace.</p>
+              </div>
+            </div>
+            <div className="panel">
+              <div className="cases-toolbar">
+                <div className="filter-chips">
+                  <button className="chip active">All</button>
+                  <button className="chip">Pinned</button>
+                  <button className="chip">High-risk</button>
+                  <button className="chip">Last 7d</button>
+                </div>
+                <input className="mini-search" placeholder="Filter cases…" aria-label="Filter cases" />
+              </div>
+              <div className="case-table" id="caseTable">
+                <div className="case-empty">
+                  <i className="bi bi-inbox"></i>
+                  <p>No saved cases yet. Run an investigation to see it here.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* THREAT FEED */}
+          <section id="threats" className="page-section">
+            <div className="page-head">
+              <div>
+                <div className="eyebrow">Threat Intelligence</div>
+                <h2 className="page-title">Global signal stream</h2>
+                <p className="page-sub">Simulated, deterministic feed for platform demonstration.</p>
+              </div>
+            </div>
+            <div className="grid-2">
+              <div className="panel">
+                <div className="panel-head"><h3 className="panel-title">Category breakdown</h3></div>
+                <div className="chart-wrap"><canvas id="catChart" height="200"></canvas></div>
+              </div>
+              <div className="panel">
+                <div className="panel-head"><h3 className="panel-title">Source health</h3></div>
+                <div className="chart-wrap"><canvas id="srcChart" height="200"></canvas></div>
+              </div>
+            </div>
+          </section>
+
+          {/* API + PRICING teaser */}
+          <section id="pricing" className="page-section">
+            <div className="page-head">
+              <div>
+                <div className="eyebrow">Plans</div>
+                <h2 className="page-title">Built for teams that ship investigations</h2>
+              </div>
+            </div>
+            <div className="grid-3">
+              <PricingCard tier="Analyst" price="$0" desc="Solo researchers running authorized OSINT." features={["25 investigations / day","DNS + WHOIS enrichment","PDF/JSON export"]} />
+              <PricingCard tier="Team" price="$149" featured desc="Small SOC & DFIR teams." features={["Unlimited investigations","Breach API integrations","Case sharing & tags","Priority enrichment"]} />
+              <PricingCard tier="Enterprise" price="Custom" desc="Regulated environments & MSSPs." features={["SSO / SCIM","On-prem enrichment relay","Dedicated support","Audit trail export"]} />
+            </div>
+          </section>
+
+          <footer className="osp-footer">
             <div>
-              <a href="#" style={{ display: "inline", marginRight: "1rem" }}>Privacy</a>
-              <a href="#" style={{ display: "inline", marginRight: "1rem" }}>Terms</a>
-              <a href="#" style={{ display: "inline" }}>Responsible Use</a>
+              <div className="brand small">
+                <span className="brand-mark"><span className="brand-dot" /></span>
+                <span className="brand-name">OS-POINT</span>
+              </div>
+              <p className="foot-note">Prototype for authorized OSINT training. No private data is retrieved. Live enrichment uses public CORS-enabled endpoints (Google DNS-over-HTTPS, RDAP.org, Gravatar).</p>
             </div>
-          </div>
-        </div>
-      </footer>
+            <div className="foot-cols">
+              <div><div className="foot-h">Product</div><a href="#dashboard">Dashboard</a><a href="#investigate">Investigate</a><a href="#reports">Reports</a></div>
+              <div><div className="foot-h">Platform</div><a href="#api">API</a><a href="#docs">Docs</a><a href="#pricing">Pricing</a></div>
+              <div><div className="foot-h">Company</div><a href="#">About</a><a href="#">Security</a><a href="#">Contact</a></div>
+            </div>
+          </footer>
+        </main>
+      </div>
 
-      {/* LOGIN MODAL */}
-      <div className="modal fade auth-modal" id="loginModal" tabIndex={-1} aria-labelledby="loginTitle" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="loginTitle"><i className="bi bi-shield-lock me-2" aria-hidden="true"></i>Operator Login</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close login dialog"></button>
-            </div>
-            <form id="loginForm">
-              <div className="modal-body">
-                <div className="auth-field">
-                  <label htmlFor="loginEmail">Work email</label>
-                  <input id="loginEmail" type="email" required autoComplete="email" placeholder="analyst@company.com" />
-                </div>
-                <div className="auth-field">
-                  <label htmlFor="loginPassword">Password</label>
-                  <input id="loginPassword" type="password" required minLength={8} autoComplete="current-password" placeholder="••••••••" />
-                </div>
-                <div className="auth-note" role="note">
-                  <i className="bi bi-info-circle me-1" aria-hidden="true"></i>
-                  Demo prototype — credentials are validated client-side only. No real account is created and no data leaves the browser.
-                </div>
-              </div>
-              <div className="modal-footer d-flex justify-content-between align-items-center">
-                <span className="auth-switch">No account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Create one</a></span>
-                <button type="submit" className="btn btn-cyber"><i className="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i> Sign in (demo)</button>
-              </div>
-            </form>
+      {/* COMMAND PALETTE */}
+      <div className="cmdk-backdrop" id="cmdkBackdrop" hidden>
+        <div className="cmdk" role="dialog" aria-label="Command palette">
+          <div className="cmdk-input-wrap">
+            <i className="bi bi-search"></i>
+            <input id="cmdkInput" placeholder="Type a command or paste an indicator…" aria-label="Command palette input" />
+            <kbd>ESC</kbd>
           </div>
+          <div className="cmdk-list" id="cmdkList"></div>
         </div>
       </div>
 
-      {/* SIGNUP MODAL */}
-      <div className="modal fade auth-modal" id="signupModal" tabIndex={-1} aria-labelledby="signupTitle" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="signupTitle"><i className="bi bi-person-plus me-2" aria-hidden="true"></i>Get Started</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close sign-up dialog"></button>
-            </div>
-            <form id="signupForm">
-              <div className="modal-body">
-                <div className="auth-field">
-                  <label htmlFor="signupName">Full name</label>
-                  <input id="signupName" type="text" required minLength={2} maxLength={80} placeholder="Jane Analyst" />
-                </div>
-                <div className="auth-field">
-                  <label htmlFor="signupEmail">Work email</label>
-                  <input id="signupEmail" type="email" required autoComplete="email" placeholder="analyst@company.com" />
-                </div>
-                <div className="auth-field">
-                  <label htmlFor="signupOrg">Organization</label>
-                  <input id="signupOrg" type="text" required minLength={2} maxLength={80} placeholder="Acme Security" />
-                </div>
-                <div className="auth-field">
-                  <label htmlFor="signupPassword">Choose a password</label>
-                  <input id="signupPassword" type="password" required minLength={8} autoComplete="new-password" placeholder="Minimum 8 characters" />
-                </div>
-                <div className="auth-note" role="note">
-                  <i className="bi bi-shield-check me-1" aria-hidden="true"></i>
-                  This is a demonstration platform. Submitting the form provisions a
-                  local demo workspace only — no backend account is created.
-                </div>
-              </div>
-              <div className="modal-footer d-flex justify-content-between align-items-center">
-                <span className="auth-switch">Have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Sign in</a></span>
-                <button type="submit" className="btn btn-cyber"><i className="bi bi-rocket-takeoff me-1" aria-hidden="true"></i> Create demo workspace</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      {/* TOAST */}
+      <div className="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
     </>
+  );
+}
 
+function KpiCard({ icon, label, value, delta, tone }: { icon: string; label: string; value: string; delta: string; tone: string; }) {
+  return (
+    <div className={"kpi tone-" + tone}>
+      <div className="kpi-icon"><i className={"bi " + icon}></i></div>
+      <div>
+        <div className="kpi-label">{label}</div>
+        <div className="kpi-value">{value}</div>
+        <div className="kpi-delta">{delta} <span>vs prev</span></div>
+      </div>
+    </div>
+  );
+}
+
+function ScoreCard({ id, label, tone }: { id: string; label: string; tone: string }) {
+  return (
+    <div className={"score-card tone-" + tone}>
+      <div className="score-label">{label}</div>
+      <div className="score-ring" id={id}>
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="52" className="ring-bg" />
+          <circle cx="60" cy="60" r="52" className="ring-fg" strokeDasharray="326.7" strokeDashoffset="326.7" />
+        </svg>
+        <div className="ring-val">—</div>
+      </div>
+    </div>
+  );
+}
+
+function PricingCard({ tier, price, desc, features, featured }: { tier: string; price: string; desc: string; features: string[]; featured?: boolean }) {
+  return (
+    <div className={"panel pricing" + (featured ? " featured" : "")}>
+      {featured && <div className="pricing-flag">Most popular</div>}
+      <div className="pricing-tier">{tier}</div>
+      <div className="pricing-price">{price}<span>/mo</span></div>
+      <p className="pricing-desc">{desc}</p>
+      <ul className="pricing-list">
+        {features.map((f) => <li key={f}><i className="bi bi-check2"></i>{f}</li>)}
+      </ul>
+      <button className={featured ? "btn-primary w-100" : "btn-ghost w-100"}>Choose {tier}</button>
+    </div>
   );
 }
