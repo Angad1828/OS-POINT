@@ -121,13 +121,3 @@ src/styles.css         design tokens and the workstation layout (dark / light / 
 - Unused shadcn/ui components and their dependencies remain in `src/components/ui`; they are not
   imported by the application.
 
-## Build with Lovable
-
-This project was built with [Lovable](https://lovable.dev).
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/75cece83-c1c5-48d1-9746-3ce05cc6bb4f).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into
-  Lovable, ready for your next prompt.
