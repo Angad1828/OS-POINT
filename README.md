@@ -1,647 +1,133 @@
 # OS-POINT
 
-MASTER PROMPT
-
-Role:
-You are an award-winning Senior Frontend Engineer, UI/UX Designer, Motion Designer, and Cybersecurity Product Designer. Your task is to design and develop a premium, enterprise-grade cybersecurity OSINT platform interface that looks comparable to products used by professional security companies.
-
-The platform is ONLY a frontend prototype for educational and authorized cybersecurity demonstrations. It must not claim to retrieve private information or perform illegal surveillance. All search results should be clearly represented as mock/demo data until legitimate APIs are integrated.
-
-Project Name
-
-OS-POINT
-
-Tagline:
-
-Intelligence Beyond Visibility
-
-Goal
-
-Build an ultra-modern OSINT (Open Source Intelligence) web application that appears to be a real commercial cybersecurity product.
-
-The website should immediately convince visitors that they are using a premium enterprise-grade intelligence platform.
-
-The design should resemble products from companies such as:
-
- Recorded Future
-
- Maltego
-
- SpiderFoot
-
- Shodan
-
- GreyNoise
-
- VirusTotal
-
- IBM QRadar
-
- Splunk Enterprise Security
-
- Microsoft Defender XDR
-
- CrowdStrike Falcon
-
- SentinelOne
-
- Mandiant
-
-while maintaining an original design.
-
-Use current cybersecurity dashboard design trends and inspiration from professional UI showcases. Good cybersecurity dashboards emphasize clear information hierarchy, dark themes, real-time status indicators, and interactive analytics rather than cluttered interfaces.
-
-Technology Stack
-
-Frontend only
-
-Use:
-
- HTML5
-
- CSS3
-
- Vanilla JavaScript
-
- Bootstrap 5 (via CDN)
-
- Bootstrap Icons
-
- Font Awesome
-
- Google Fonts
-
- AOS Animation Library
-
- GSAP
-
- particles.js
-
- Typed.js
-
- Three.js (if suitable)
-
- Chart.js
-
- Vanilla Tilt.js
-
-No React.
-
-No backend.
-
-No frameworks other than Bootstrap.
-
-File Structure
-
-Generate code separately for:
-
-index.html
-
-style.css
-
-script.js
-
-Each file should be complete.
-
-Do NOT merge everything into one file.
-
-Theme
-
-Dark futuristic cyber intelligence center.
-
-Primary colors
-
-#00E5FF
-
-#00FF88
-
-#0B1220
-
-#101827
-
-#111827
-
-#0F172A
-
-#38BDF8
-
-Accent colors
-
-Purple
-
-Electric Blue
-
-Neon Cyan
-
-Neon Green
-
-Dark Glass
-
-Everything should use Glassmorphism + Soft Glow.
-
-Website Sections
-
-1. Animated Hero
-
-Full-screen landing page containing:
-
- animated world map
-
- glowing grid
-
- floating particles
-
- digital scan effects
-
- rotating globe
-
- live network nodes
-
- binary rain
-
- cyber scanning animation
-
-Headline:
-
-OS-POINT
-
-Subheading:
-
-Enterprise Open Source Intelligence Platform
-
-Animated typing text:
-
-Phone Intelligence
-
-Email Intelligence
-
-IP Intelligence
-
-Facial Intelligence
-
-Username Intelligence
-
-Threat Intelligence
-
-Metadata Analysis
-
-Digital Footprint Mapping
-
-CTA Buttons
-
-Launch Investigation
-
-Explore Platform
-
-2. Navigation Bar
-
-Sticky
-
-Glass effect
-
-Contains
-
-Home
-
-Modules
-
-Dashboard
-
-Intelligence
-
-API
-
-About
-
-Contact
-
-Login
-
-Get Started
-
-3. Statistics Section
-
-Animated counters
-
-Example:
-
-12M+
-
-Investigations
-
-230+
-
-Countries
-
-400+
-
-Data Sources
-
-99.98%
-
-Uptime
-
-1.2B+
-
-Records Indexed
-
-4. Intelligence Modules
-
-Create beautiful cards for:
-
-Phone Intelligence
-
-Email Intelligence
-
-IP Intelligence
-
-Username Intelligence
-
-Domain Intelligence
-
-WHOIS Lookup
-
-DNS Lookup
-
-Metadata Extraction
-
-Image Intelligence
-
-Reverse Image
-
-Facial Recognition (Demo)
-
-Dark Web Monitor
-
-Breach Lookup
-
-Threat Feed
-
-Hash Analysis
-
-Malware Sandbox
-
-Geo Intelligence
-
-Social Intelligence
-
-Document Intelligence
-
-Company Intelligence
-
-Each card should have
-
-animated icon
-
-hover glow
-
-gradient
-
-glass effect
-
-ripple animation
-
-5. Search Dashboard
-
-Large enterprise search panel.
-
-Tabs:
-
-Phone
-
-Email
-
-IP
-
-Username
-
-Face
-
-Domain
-
-Hash
-
-Each search field should have
-
-beautiful animations
-
-glowing border
-
-loading animation
-
-fake intelligence results
-
-status cards
-
-confidence score
-
-risk score
-
-geo location map placeholder
-
-timeline
-
-relationship graph placeholder
-
-Remember:
-
-These are demonstration components only.
-
-6. Live Threat Intelligence Dashboard
-
-Animated widgets
-
-Include
-
-Threat Level
-
-Live Attacks
-
-Country Heatmap
-
-Recent IOC
-
-Top Attack Types
-
-Recent CVEs
-
-Malware Activity
-
-Network Activity
-
-Charts
-
-Pie
-
-Radar
-
-Bar
-
-Line
-
-Map placeholder
-
-Everything animated.
-
-7. Investigation Workflow
-
-Timeline
-
-Target Selected
-
-↓
-
-Data Collection
-
-↓
-
-Correlation
-
-↓
-
-Entity Resolution
-
-↓
-
-Relationship Mapping
-
-↓
-
-Threat Analysis
-
-↓
-
-Report Generation
-
-8. Features Section
-
-Beautiful icons
-
-Cards
-
-Animations
-
-Example features
-
-AI Powered
-
-Fast Investigation
-
-Cross Correlation
-
-Relationship Graphs
-
-Dark Mode
-
-Threat Intelligence
-
-Global Coverage
-
-API Ready
-
-Export Reports
-
-Evidence Collection
-
-9. Testimonials
-
-Enterprise cards
-
-Cybersecurity professionals
-
-Security analysts
-
-SOC teams
-
-Blue Team
-
-Threat Hunters
-
-10. Pricing
-
-Starter
-
-Professional
-
-Enterprise
-
-Beautiful cards
-
-11. Footer
-
-Cyber design
-
-Social icons
-
-Newsletter
-
-Links
-
-Background animation
-
-Animations
-
-Include professional animations everywhere.
-
-Examples
-
-Glow
-
-Neon pulse
-
-Hover tilt
-
-Mouse tracking
-
-Card lift
-
-Scroll reveal
-
-Floating icons
-
-Particle background
-
-Cyber scan
-
-Typing effect
-
-Counter animation
-
-Animated charts
-
-Live blinking indicators
-
-World map pulse
-
-Digital glitch
-
-Binary rain
-
-Cursor glow
-
-Button ripple
-
-Loading skeletons
-
-Shimmer
-
-Smooth transitions
-
-Nothing should feel static.
-
-UI Quality
-
-The UI should be comparable to
-
-Stripe
-
-Linear
-
-Vercel
-
-IBM
-
-CrowdStrike
-
-Microsoft Security
-
-Cloudflare
-
-SentinelOne
-
-Splunk
-
-Everything should feel premium.
-
-Responsive
-
-Desktop
-
-Laptop
-
-Tablet
-
-Mobile
-
-Use Bootstrap grid properly.
-
-Code Quality
-
-Write clean code.
-
-Use comments.
-
-Organize CSS.
-
-Avoid repetition.
-
-Semantic HTML.
-
-Modern JavaScript.
-
-Easy to maintain.
-
-Performance
-
-Smooth 60 FPS animations.
-
-Lazy load where possible.
-
-Optimize CSS.
-
-No unnecessary libraries.
-
-Assets
-
-Use free CDNs.
-
-Bootstrap
-
-Bootstrap Icons
-
-Google Fonts
-
-AOS
-
-GSAP
-
-Particles.js
-
-Typed.js
-
-Chart.js
-
-Font Awesome
-
-Final Deliverable
-
-Produce production-quality frontend code for:
-
- index.html
-
- style.css
-
- script.js
-
-The interface should look like a genuine commercial cybersecurity SaaS platform suitable for demonstrating authorized OSINT workflows. The search modules and dashboards should use realistic placeholder data only until connected to legitimate data sources or APIs.
-
-This project was built with [Lovable](https://lovable.dev).
+An evidence-first digital investigation workspace for authorized open-source research.
+
+OS-POINT collects public, attributable observations about an email address or domain, records the
+status and provenance of every check, keeps failures visible, and stores each run as a reproducible
+case.
+
+## Current state (Stages 2–5 of the roadmap)
+
+Primary navigation contains exactly four destinations:
+
+| Destination | State | What it does |
+| --- | --- | --- |
+| **Workspace** (`/`) | Working | Starts a run for any of the three entity types, lists stored cases with genuine counts, filters, and documents method limits |
+| **Email intelligence** (`/email`) | Working | Validation, domain DNS, SPF/DMARC parsing, mail-provider inference, RDAP context, Gravatar avatar, rule-based summary, and an optional (off by default) GitHub local-part discovery step that is recorded separately and labelled *association not verified* |
+| **Domain intelligence** (`/domain`) | Working | Six DNS record types, SPF/DMARC, provider inference, RDAP registration data |
+| **Username intelligence** (`/username`) | Working | One unauthenticated request to GitHub's documented `/users/{name}` endpoint, classified strictly as a discovery lead |
+
+Deferred and removed from the interface: phone, IP, hash, URL and image modules, the synthetic threat
+feed, the signal map, the invented KPI/uptime metrics, pricing, notifications, global search, and the
+fabricated breach and profile panels. No breach, exposure, image or AI service is queried.
+
+### What a run records
+
+- **Checks (13 for email, 14 when the optional discovery step is enabled, 12 for domain, 2 for
+  username)** with an id, label, status, observation, source URL, retrieval time and duration. Status
+  is `completed`, `no record`, `failed` or `not checked`.
+- **Findings** classified as observed, source-reported, inferred, failed or not checked, each linked
+  to the checks that support it, with an explicit limitation.
+- **Relationships** — evidence-linked entity connections (for example *address → domain*,
+  *domain → mail provider*, *username → GitHub profile*). Each carries a type, a classification
+  (directly observed, source-reported, inferred, unverified), the supporting check IDs, an
+  explanation and a limitation, rendered as an interactive map plus a plain list. Cases with no
+  supported relationship show an honest empty state instead of a decorative graph.
+- **Assessment** that reports identity confidence and security risk as *not assessed* /
+  *insufficient evidence* rather than inventing a score.
+- **Collection timeline** in UTC, separated from source-reported registry dates.
+- **Analyst notes**, stored with the case.
+
+### Sources
+
+- Google Public DNS over HTTPS (`dns.google/resolve`) for A, AAAA, MX, NS, TXT, CAA and `_dmarc`.
+- RDAP via `rdap.org`, which redirects to the responsible registry.
+- Gravatar (`gravatar.com/avatar/<md5>?d=404`) for avatar existence only.
+- GitHub public API (`api.github.com/users/{name}`) for username discovery — 60 unauthenticated
+  requests per hour per IP; a rate-limited response is reported as a failed check with its reset
+  time, never as “no profile found”. Returned URLs are validated against the expected
+  `https://github.com/<login>` pattern before they are ever rendered as links.
+
+All requests run from the analyst's browser. There is no server proxy and no API key. Those services
+see the browser's IP address; Gravatar also receives the MD5 hash of the normalised address.
+
+## Evidence rules
+
+1. A failed lookup is recorded as a failure, never as "nothing found".
+2. An absent DNS record is an observation about published configuration, not a security verdict.
+3. An avatar or a username-shaped local part is not identity evidence.
+4. Identity confidence and security risk are separate concepts and remain unassessed without
+   supporting evidence.
+5. Source-reported facts (for example registry dates) are labelled apart from direct observations.
+6. Timestamps are collection times in UTC; no event time is invented.
+7. A relationship is only recorded when a check in the same case supports it. Two values appearing
+   in one result set is not enough, and a username match on one platform is a lead, not ownership.
+
+## Storage
+
+Cases live in this browser's `localStorage` under `osp.cases.v2`, capped at 100 records, unencrypted
+and not shared between devices. Records are schema-versioned (`schemaVersion: 3`); version-2 cases
+saved by earlier builds are migrated on read instead of being dropped. Deleting a case removes it
+from the browser only. JSON and CSV exports are generated from the stored model (including
+relationship rows); the PDF path is the browser's own print-to-PDF with a dedicated print
+stylesheet.
+
+## Development
+
+```sh
+npm install
+npm run dev        # Vite + TanStack Start
+npm run typecheck  # tsc --noEmit
+npm run lint
+npm run build
+```
+
+The app is a TanStack Start (React 19) application. The Vite build produces a Nitro/Cloudflare Worker
+bundle in `.output/`.
+
+### Structure
+
+```text
+src/routes/            file-based routes: workspace, email, domain, username, case detail
+src/components/        shell, workspace, investigation view, case report, relationship map, status marks
+src/hooks/             case store subscription, investigation runner, hydration/media queries
+src/lib/osint/         types, validation, DNS, RDAP, Gravatar, GitHub, check builders, pipelines
+src/lib/case-store.ts  versioned browser case store with v2 → v3 migration on read
+src/lib/export.ts      JSON and escaped CSV exports (findings and relationships included)
+src/lib/theme.ts       theme application and pre-hydration script
+src/styles.css         design tokens and the workstation layout (dark / light / print)
+```
+
+## Known limitations
+
+- **Not verified in this stage:** print/PDF rendering on real printers, screen-reader traversal with
+  assistive technology, and production deployment of the Worker bundle.
+- **No automated tests yet.** Parsers and validation were exercised directly, but there is no test
+  runner in the repository.
+- **Username discovery covers GitHub only** (60 unauthenticated requests/hour per IP). It is not
+  social-media enumeration; adding another provider requires verifying its permitted access method,
+  rate limits and error behaviour first.
+- **The email pipeline's optional discovery step is off by default** to respect that rate limit, and
+  its result is stored under `identity.github`, separate from the email-specific evidence.
+- **Stage 6 (AI) is not implemented:** no model provider is configured, so summaries are rule-based
+  and labelled “AI analysis not configured”. An AI integration must ground every claim in evidence
+  IDs and defend against prompt injection in retrieved content before it is enabled.
+- **Stage 7 work:** broader browser/keyboard matrix, print verification, and a documented showcase
+  script.
+- Relationship graph layout is deterministic (target left, related entities right); it is not a
+  force-directed library and deliberately adds no dependency.
+- Cases have no queue, cancellation, tags, or pinned findings; runs execute immediately in the
+  browser and cannot be cancelled mid-flight.
+- Unused shadcn/ui components and their dependencies remain in `src/components/ui`; they are not
+  imported by the application.
 
 ## Build with Lovable
+
+This project was built with [Lovable](https://lovable.dev).
 
 Continue developing this project in the [Lovable editor](https://lovable.dev/projects/75cece83-c1c5-48d1-9746-3ce05cc6bb4f).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
 - **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into
+  Lovable, ready for your next prompt.
