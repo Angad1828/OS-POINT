@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
 import { useCases } from "@/hooks/use-cases";
+import { useIntroAnimation, IntroAnimation } from "@/components/intro-animation";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { isStorageAvailable } from "@/lib/case-store";
 import { formatUtc } from "@/lib/format";
@@ -23,13 +24,14 @@ export function Workspace() {
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
   const [storageAvailable] = useState(() => isStorageAvailable());
+  const introShown = useIntroAnimation();
 
   const checksCollected = cases.reduce(
-    (total, record) => total + record.checks.filter((check) => check.status === "completed").length,
+    (total, record) => total + (record.checks?.filter((check) => check.status === "completed")?.length ?? 0),
     0,
   );
   const failedChecks = cases.reduce(
-    (total, record) => total + record.checks.filter((check) => check.status === "failed").length,
+    (total, record) => total + (record.checks?.filter((check) => check.status === "failed")?.length ?? 0),
     0,
   );
 
@@ -79,6 +81,8 @@ export function Workspace() {
           </Link>
         </div>
       </header>
+
+      {introShown && <IntroAnimation />}
 
       <section className="entry" aria-labelledby="start-title">
         <h2 className="panel-title" id="start-title">
@@ -265,12 +269,8 @@ export function Workspace() {
                 </thead>
                 <tbody>
                   {visibleCases.map((record) => {
-                    const completed = record.checks.filter(
-                      (check) => check.status === "completed",
-                    ).length;
-                    const failed = record.checks.filter(
-                      (check) => check.status === "failed",
-                    ).length;
+                    const completed = record.checks?.filter((check) => check.status === "completed")?.length ?? 0;
+                    const failed = record.checks?.filter((check) => check.status === "failed")?.length ?? 0;
                     return (
                       <tr key={record.id}>
                         <td data-label="Target">
@@ -291,7 +291,7 @@ export function Workspace() {
                         </td>
                         <td data-label="Checks">
                           <span className="num">
-                            {completed}/{record.checks.length}
+                            {completed}/{record.checks?.length ?? 0}
                           </span>
                           {failed > 0 ? <div className="cell-meta">{failed} failed</div> : null}
                         </td>

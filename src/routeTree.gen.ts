@@ -14,6 +14,7 @@ import { Route as DomainRouteImport } from './routes/domain'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as UsernameRouteImport } from './routes/username'
 import { Route as CasesCaseIdRouteImport } from './routes/cases.$caseId'
+import { Route as ReportCaseIdRouteImport } from './routes/report.$caseId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const CasesCaseIdRoute = CasesCaseIdRouteImport.update({
   path: '/cases/$caseId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReportCaseIdRoute = ReportCaseIdRouteImport.update({
+  id: '/report/$caseId',
+  path: '/report/$caseId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/email': typeof EmailRoute
   '/username': typeof UsernameRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
+  '/report/$caseId': typeof ReportCaseIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/email': typeof EmailRoute
   '/username': typeof UsernameRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
+  '/report/$caseId': typeof ReportCaseIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,33 @@ export interface FileRoutesById {
   '/email': typeof EmailRoute
   '/username': typeof UsernameRoute
   '/cases/$caseId': typeof CasesCaseIdRoute
+  '/report/$caseId': typeof ReportCaseIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/domain' | '/email' | '/username' | '/cases/$caseId'
+  fullPaths:
+    | '/'
+    | '/domain'
+    | '/email'
+    | '/username'
+    | '/cases/$caseId'
+    | '/report/$caseId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/domain' | '/email' | '/username' | '/cases/$caseId'
-  id: '__root__' | '/' | '/domain' | '/email' | '/username' | '/cases/$caseId'
+  to:
+    | '/'
+    | '/domain'
+    | '/email'
+    | '/username'
+    | '/cases/$caseId'
+    | '/report/$caseId'
+  id:
+    | '__root__'
+    | '/'
+    | '/domain'
+    | '/email'
+    | '/username'
+    | '/cases/$caseId'
+    | '/report/$caseId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +105,7 @@ export interface RootRouteChildren {
   EmailRoute: typeof EmailRoute
   UsernameRoute: typeof UsernameRoute
   CasesCaseIdRoute: typeof CasesCaseIdRoute
+  ReportCaseIdRoute: typeof ReportCaseIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CasesCaseIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/report/$caseId': {
+      id: '/report/$caseId'
+      path: '/report/$caseId'
+      fullPath: '/report/$caseId'
+      preLoaderRoute: typeof ReportCaseIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmailRoute: EmailRoute,
   UsernameRoute: UsernameRoute,
   CasesCaseIdRoute: CasesCaseIdRoute,
+  ReportCaseIdRoute: ReportCaseIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

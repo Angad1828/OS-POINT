@@ -1,0 +1,80 @@
+/* -------------------------------------------------------------
+ * OS-POINT Intro Animation — single-session on first load
+ * -------------------------------------------------------------
+ * Design: faint network structure → staggered link draw → one scan
+ * line → wordmark reveal. Total ≈1.8s. Respects prefers-reduced-motion.
+ * Layout stable: only stroke-dashoffset and opacity are animated.
+ * ------------------------------------------------------------- */
+
+/* -- Reduced-motion: disable all animation effects -- */
+@media (prefers-reduced-motion: reduce) {
+  .intro-svg * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .link {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .scan-line {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+/* -- Link strokes: drawn with stroke-dashoffset, staggered via animation -- */
+.link {
+  /* Start fully invisible; stroke-dasharray/dashoffset reveal them */
+  stroke-dasharray: 8 4;
+  stroke-dashoffset: 8;
+  stroke: var(--accent, #1d4f50);
+  stroke-width: 2;
+  fill: none;
+  /* Staggered reveal — each link gets its own animation delay */
+  animation: draw-link 1.2s ease-out forwards;
+}
+
+/* Individual link delays — the JS sets these via inline style */
+.stroke-1 { animation-delay: 0.2s; }   /* Email → Domain */
+.stroke-2 { animation-delay: 0.5s; }   /* Domain → Username */
+.stroke-3 { animation-delay: 0.8s; }   /* Username → Email */
+
+@keyframes draw-link {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* -- Node circles -- */
+.node {
+  cursor: default;
+  stroke: var(--rule, #cccccc);
+  "stroke-width": 1;
+}
+.node-fill {
+  fill: var(--accent, #1d4f50);
+}
+
+/* -- Scan line: passes once across the diagram -- */
+.scan-line {
+  fill: none;
+  stroke: var(--accent, #1d4f50);
+  stroke-width: 1;
+  /* Move from left to right over 1.2s, starting after 0.7s */
+  animation: scan-pass 1.2s linear 0.7s forwards;
+}
+
+@keyframes scan-pass {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* -- Wordmark: opacity fade + slight position tweak -- */
+.wordmark {
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+.wordmark.visible {
+  opacity: 1;
+}
