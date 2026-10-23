@@ -98,26 +98,5 @@ src/lib/theme.ts       theme application and pre-hydration script
 src/styles.css         design tokens and the workstation layout (dark / light / print)
 ```
 
-## Known limitations
 
-- **Not verified in this stage:** print/PDF rendering on real printers, screen-reader traversal with
-  assistive technology, and production deployment of the Worker bundle.
-- **No automated tests yet.** Parsers and validation were exercised directly, but there is no test
-  runner in the repository.
-- **Username discovery covers GitHub only** (60 unauthenticated requests/hour per IP). It is not
-  social-media enumeration; adding another provider requires verifying its permitted access method,
-  rate limits and error behaviour first.
-- **The email pipeline's optional discovery step is off by default** to respect that rate limit, and
-  its result is stored under `identity.github`, separate from the email-specific evidence.
-- **Stage 6 (AI) is not implemented:** no model provider is configured, so summaries are rule-based
-  and labelled “AI analysis not configured”. An AI integration must ground every claim in evidence
-  IDs and defend against prompt injection in retrieved content before it is enabled.
-- **Stage 7 work:** broader browser/keyboard matrix, print verification, and a documented showcase
-  script.
-- Relationship graph layout is deterministic (target left, related entities right); it is not a
-  force-directed library and deliberately adds no dependency.
-- Cases have no queue, cancellation, tags, or pinned findings; runs execute immediately in the
-  browser and cannot be cancelled mid-flight.
-- Unused shadcn/ui components and their dependencies remain in `src/components/ui`; they are not
-  imported by the application.
 
